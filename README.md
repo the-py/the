@@ -3,7 +3,8 @@
 Inspired by should.js
 
 # Example
-'''python
+
+```python
 def raise_exception(x):
     raise Exception(x)
 
@@ -20,5 +21,5 @@ The(fib).when.apply(1).should.Return(1).And.when.apply(2).it.should.Return(1)
 The(raise_exception).when.apply('hello world').should.throw('hello world').And.when.apply('hell world').should.nt.throw('hello world').but.throw('hell.*')
 
 The({'a': 1, 'b': 2}).should.have.items('a', b=2)
-'''
+```
 
