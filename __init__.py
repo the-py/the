@@ -1,8 +1,11 @@
 import re
 
 class The(object):
-    them = {'should', 'to', 'have', 'must', 'be', 'and'}
-    rockers = {'nt': lambda obj: obj.__not()}
+    them = {'should', 'to', 'have', 'has', 'must', 'be', 'And', 'when', 'but', 'it'}
+    coders = {
+        'nt': lambda obj: obj.__not(),
+        'Not': lambda obj: obj.__not()
+    }
 
     def __init__(self, obj):
         self.neg = False
@@ -19,29 +22,26 @@ class The(object):
     def __getattr__(self, attr):
         if attr in The.them:
             return self
-        elif attr in The.rockers:
-            The.rockers[attr](self)
+        elif attr in The.coders:
+            The.coders[attr](self)
             return self
         else:
             raise AttributeError('No attribute ' + attr + ' found.')
-
-    def equal(self, value):
-        return self.check(self.obj == value)
-
-    def a(self, type):
-        return self.check(isinstance(self.obj, type))
-    an = a
-
-    def exist(self):
-        return self.check(self.obj)
-    exists = exist
 
     def __not(self):
         self.neg = not self.neg
         return self
 
-    def ok(self):
-        return self.exist()
+    def equal(self, value):
+        return self.check(self.obj == value)
+
+    def a(self, tp):
+        return self.check(isinstance(self.obj, tp))
+    an = a
+
+    def exist(self):
+        return self.check(self.obj)
+    ok = exists = exist
 
     def true(self):
         return self.check(self.obj is True)
@@ -50,9 +50,9 @@ class The(object):
         return self.check(self.obj is False)
 
     def empty(self):
-        return self.exist()
+        return not self.exist()
 
-    def was(self, other):
+    def Is(self, other):
         return self.check(self.obj is other)
 
     def within(self, x, y=None):
@@ -72,10 +72,47 @@ class The(object):
         return self.check(len(self.obj) == n)
     size = length
 
+    def item(self, key, value=None):
+        self.check(key in self.obj)
+        return self.check(self.obj[key] == value) if value else self
+
+    def items(self, *args, **kwargs):
+        for i in args:
+            self.item(i)
+        for key, value in kwargs.iteritems():
+            self.item(key, value)
+        return self
+
+    def key(self, key):
+        return self.item(key)
+
+    def value(self, val):
+        return self.check(val in self.obj.values())
+
+    def keys(self, *args):
+        # return self.check(reduce(lambda acc, x: acc and (x in self.obj),
+        #                          args, True))
+        for x in args:
+            self.key(x)
+        return self
+
+    def values(self, *args):
+        for x in args:
+            self.value(x)
+        return self
+
     def property(self, key, value=None):
-        self.check(self.obj.has_key(key))
-        return value and self.check(self.obj[key] == value)
-    key = property
+        self.check(hasattr(self.obj, key))
+        return self.check(getattr(self.obj, key) == value) if value else self
+    attr = attribute = property
+
+    def properties(self, *args, **kwargs):
+        for i in args:
+            self.property(i)
+        for key, value in kwargs.iteritems():
+            self.property(key, value)
+        return self
+    attrs = attributes = properties
 
     def include(self, item):
         return self.check(item in self.obj)
@@ -84,11 +121,14 @@ class The(object):
         self.__obj = lambda : self.obj(*args, **kwargs)
         return self
 
-    def keys(self, *args):
-        # return self.check(reduce(lambda acc, x: acc and (x in self.obj),
-        #                          args, True))
-        for x in args:
-            key(x)
+    def Return(self, res):
+        self.check((self.__obj or self.obj)() == res)
+        self.__obj = None
+        return self
+
+    def respond_to(self, fn):
+        return (self.check(hasattr(self.obj, fn)) and
+                self.check(callable(getattr(self.obj, fn))))
 
     def throw(self, regex=None, type=Exception):
         try:
@@ -98,6 +138,5 @@ class The(object):
                 self.check(re.search(regex, e.message))
         else:
             assert False, 'No exception found!'
-
         self.__obj = None
         return self
