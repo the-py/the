@@ -1,3 +1,5 @@
+import .
+
 def r(x):
     raise Exception(x)
 
