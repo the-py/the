@@ -5,7 +5,7 @@ Inspired by should.js
 # Example
 
 ```python
-def raise_exception(x):
+def iraise(x):
     raise Exception(x)
 
 def fib(x):
@@ -18,7 +18,10 @@ def fib(x):
     return _fib()
 
 The(fib).when.apply(1).should.Return(1).And.when.apply(2).it.should.Return(1)
-The(raise_exception).when.apply('hello world').should.throw('hello world').And.when.apply('hell world').should.nt.throw('hello world').but.throw('hell.*')
+
+The(iraise).when.apply('hello world').should.throw('hello world')
+
+The(iraise).when.apply('hell world').should.nt.throw('hello world').but.throw('hell.*')
 
 The({'a': 1, 'b': 2}).should.have.items('a', b=2)
 ```
