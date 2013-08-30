@@ -52,7 +52,7 @@ class The(object):
     def empty(self):
         return self.exist()
 
-    def _is(self, other):
+    def was(self, other):
         return self.check(self.obj is other)
 
     def within(self, x, y=None):
