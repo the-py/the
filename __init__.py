@@ -12,13 +12,6 @@ class The(object):
         self.obj = obj
         self.__obj = None
 
-    def check(self, stmt, msg=''):
-        if self.neg:
-            assert not stmt, msg
-        else:
-            assert stmt, msg
-        return self
-
     def __getattr__(self, attr):
         if attr in The.them:
             return self
@@ -28,9 +21,23 @@ class The(object):
         else:
             raise AttributeError('No attribute ' + attr + ' found.')
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, etype, evalue, trace):
+        # todo
+        pass
+
     def __not(self):
         self.neg = not self.neg
         return self
+
+    def check(self, stmt, msg=''):
+        if self.neg:
+            assert not stmt, msg
+        else:
+            assert stmt, msg
+            return self
 
     def equal(self, value):
         return self.check(self.obj == value)
@@ -130,10 +137,10 @@ class The(object):
         return (self.check(hasattr(self.obj, fn)) and
                 self.check(callable(getattr(self.obj, fn))))
 
-    def throw(self, regex=None, type=Exception):
+    def throw(self, regex=None, tp=Exception):
         try:
             (self.__obj or self.obj)()
-        except type as e:
+        except tp as e:
             if regex:
                 self.check(re.search(regex, e.message))
         else:

@@ -17,6 +17,11 @@ def fib(x):
         return memo[x]
     return _fib()
 
+
+with The(iraise) as it:
+    it.apply('hello world').should.throw('hello world')
+    it.apply('hell world').should.Not.throw('hello world').but.throw('hell.*')
+
 The(fib).when.apply(1).should.Return(1).And.when.apply(2).it.should.Return(1)
 
 The(iraise).when.apply('hello world').should.throw('hello world')
