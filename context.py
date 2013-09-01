@@ -8,6 +8,9 @@ class Context(object):
             i.chain = []
         return cls.__instance
 
+    def last(self):
+        return self.chain[-2]
+
     def current(self):
         return self.chain[-1]
 
@@ -20,3 +23,10 @@ class Context(object):
     def reset(self):
         self.chain = []
         return self
+
+class ContextException(Exception): pass
+
+def skip():
+    raise ContextException("get out of the context")
+
+

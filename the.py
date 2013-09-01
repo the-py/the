@@ -26,9 +26,12 @@ class The(object):
         self.neg = False
         self.message = self.obj = obj
         self.world = World()
-        # for function call
-        self.__obj = None
+        self.__obj = None         # for function call
         self.in_context = True
+
+    def __call__(self, message):
+        self.message = message
+        return self
 
     def __getattr__(self, attr):
         if attr in The.them:
@@ -43,9 +46,9 @@ class The(object):
         Context().stepin(self)
         return self
 
-    def __exit__(self, etype, evalue, trace):
+    def __exit__(self, etype=None, evalue=None, trace=None):
         Context().stepout()
-        pass
+        return True
 
     def __not(self):
         self.neg = True
@@ -55,7 +58,7 @@ class The(object):
         try:
             assert stmt, msg
         except Exception as e:
-            self.world.append("".join(traceback.format_stack()))
+            self.world.append(traceback.format_stack() + [e.message])
         else:
             self.world.append(None)
 
