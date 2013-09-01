@@ -1,4 +1,7 @@
-from __init__ import The
+from world import World
+from the import The
+
+World().enter()
 
 def iraise(x):
     raise Exception(x)
@@ -13,11 +16,11 @@ def fib(x):
     return _fib()
 
 it = The(fib)
-it.when.apply(1).should.Return(1)
+it.when.apply(12).should.Return(1)
 it.when.apply(3).should.Return(2)
 
 with The(fib) as it:
-    it.when.apply(1).should.Return(2)
+    it.when.apply(1).should.Return(321)
 
 The(fib).when.apply(1).should.Return(1).And.when.apply(3).should.Return(2)
 
@@ -32,22 +35,22 @@ The(iraise).when.apply('hello world').should.throw('hello world')
 
 The({'a': 1, 'b': 2}).should.have.items('a', b=2)
 
-The(1).should.Not.be.an(str)
+The(1).should.Not.be.a(str)
 
-The(1).should.nt.be.an(str)
+The(1).should.nt.be.a(str)
 
 The(1).Is(1)
 
-class A(object):
-    def __init__(self):
-        self.x = 1
+World().leave()
 
-    def __get__(self, instance, owner):
-        # self.x = 0
-        # return self
-        return 10
+# with World("my app"):
+#     with Desc("UserConstroller"):
+#         it.should.respond_to("user")
+#         it.should.respond_to("password")
 
-class B(object):
-    a = A()
+#         with The(UserController.user) as it:
+#             it.when.apply(1,2,3).should.Return(2)
+#             it.when.apply(1,2,3).should.Return(2)
 
-
+#         with The(UserController.password) as it:
+#             it.when.apply(1).should.Return

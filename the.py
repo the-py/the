@@ -1,19 +1,34 @@
 import re
 import traceback
+from world import World
+from context import Context
 
 class The(object):
     them = {'should', 'to', 'have', 'has', 'must', 'be', 'And', 'when', 'but', 'it'}
     coders = {
-        'nt': lambda obj: obj.__not(),
-        'Not': lambda obj: obj.__not()
+        'nt': lambda this: this.__not(),
+        'true': lambda this: this.__check(this.obj is True,
+                                      "{} is not True".format(this.obj)),
+        'false': lambda this: this.__check(this.obj is False,
+                                       "{} is not False".format(this.obj)),
+        'none': lambda this: this.__check(this.obj is None,
+                                      "{} is not None".format(this.obj)),
+        'exist': lambda this: this.__check(this.obj is not None,
+                                       "{} is None".format(this.obj)),
+        'ok': lambda this: this.__check(this.obj),
+        'empty': lambda this: this.__check(not this.obj)
     }
+    coders['Not'] = coders['nt']
+    coders['yes'] = coders['ok']
+    coders['exists'] = coders['exist']
 
     def __init__(self, obj):
         self.neg = False
-        self.obj = obj
-        self.exceptions = []
+        self.message = self.obj = obj
+        self.world = World()
+        # for function call
         self.__obj = None
-        self.in_context = False
+        self.in_context = True
 
     def __getattr__(self, attr):
         if attr in The.them:
@@ -25,12 +40,12 @@ class The(object):
             raise AttributeError('No attribute ' + attr + ' found.')
 
     def __enter__(self):
-        self.in_context = True
+        Context().stepin(self)
         return self
 
     def __exit__(self, etype, evalue, trace):
-        for e in self.exceptions:
-            print e
+        Context().stepout()
+        pass
 
     def __not(self):
         self.neg = True
@@ -40,7 +55,9 @@ class The(object):
         try:
             assert stmt, msg
         except Exception as e:
-            self.exceptions.append("".join(traceback.format_stack()))
+            self.world.append("".join(traceback.format_stack()))
+        else:
+            self.world.append(None)
 
     def __check(self, stmt, msg=''):
         if self.neg:
@@ -50,57 +67,39 @@ class The(object):
             self.__assert(stmt, msg)
         return self
 
-    def check(self, stmt, msg=''):
-        if self.in_context:
-            self.__check(stmt, msg)
-        else:
-            assert stmt, msg
-        return self
+    # ------------- api -----------------
 
     def equal(self, value):
-        return self.check(self.obj == value)
+        return self.__check(self.obj == value)
 
     def a(self, tp):
-        return self.check(isinstance(self.obj, tp),
+        return self.__check(isinstance(self.obj, tp),
                           "{} is not an instance of the {}".format(self.obj, tp.__name__))
     an = a
 
-    def exist(self):
-        return self.check(self.obj)
-    ok = exists = exist
-
-    def true(self):
-        return self.check(self.obj is True, "{} is not True".format(self.obj))
-
-    def false(self):
-        return self.check(self.obj is False, "{} is not False".format(self.obj))
-
-    def empty(self):
-        return not self.exist()
-
     def Is(self, other):
-        return self.check(self.obj is other, "{} is NOT {}".format(self.obj, other))
+        return self.__check(self.obj is other, "{} is NOT {}".format(self.obj, other))
 
     def within(self, x, y=None):
         x = range(x, y) if y else x
-        return self.check(self.obj in x)
+        return self.__check(self.obj in x)
 
     def above(self, n):
-        return self.check(self.obj > above)
+        return self.__check(self.obj > above)
 
     def below(self, n):
-        return self.check(self.obj < n)
+        return self.__check(self.obj < n)
 
     def match(self, regex):
-        return self.check(re.search(regex, self.obj))
+        return self.__check(re.search(regex, self.obj))
 
     def length(self, n):
-        return self.check(len(self.obj) == n)
+        return self.__check(len(self.obj) == n)
     size = length
 
     def item(self, key, value=None):
-        self.check(key in self.obj)
-        return self.check(self.obj[key] == value) if value else self
+        self.__check(key in self.obj)
+        return self.__check(self.obj[key] == value) if value else self
 
     def items(self, *args, **kwargs):
         for i in args:
@@ -113,7 +112,7 @@ class The(object):
         return self.item(key)
 
     def value(self, val):
-        return self.check(val in self.obj.values())
+        return self.__check(val in self.obj.values())
 
     def keys(self, *args):
         for x in args:
@@ -126,8 +125,8 @@ class The(object):
         return self
 
     def property(self, key, value=None):
-        self.check(hasattr(self.obj, key))
-        return self.check(getattr(self.obj, key) == value) if value else self
+        self.__check(hasattr(self.obj, key))
+        return self.__check(getattr(self.obj, key) == value) if value else self
     attr = attribute = property
 
     def properties(self, *args, **kwargs):
@@ -139,7 +138,7 @@ class The(object):
     attrs = attributes = properties
 
     def include(self, item):
-        return self.check(item in self.obj)
+        return self.__check(item in self.obj)
 
     def apply(self, *args, **kwargs):
         self.__obj = lambda : self.obj(*args, **kwargs)
@@ -148,13 +147,14 @@ class The(object):
     def Return(self, res):
         fn = self.__obj or self.obj
         ret = fn()
-        self.check(ret == res, "{} is not equal to {}".format(str(ret), str(res)))
+        self.__check(ret == res, "{} is not equal to {}".format(str(ret), str(res)))
         return self
 
     def respond_to(self, fn):
-        return (self.check(hasattr(self.obj, fn)) and
-                self.check(callable(getattr(self.obj, fn))),
+        return (self.__check(hasattr(self.obj, fn)) and
+                self.__check(callable(getattr(self.obj, fn))),
                 str(self.obj), " not respond to " + fn)
+    method = respond_to
 
     def throw(self, regex=None, tp=Exception):
         fn = self.__obj or self.obj
@@ -163,8 +163,7 @@ class The(object):
         except tp as e:
             if regex:
                 err = "{} throws <{} {}> not <{} {}>".format(self.obj,e.__class__.__name__, e.message, tp.__name__, regex)
-                self.check(re.search(regex, e.message), err)
+                self.__check(re.search(regex, e.message), err)
         else:
             assert False, str(fn) + 'when called No exception throws!'
         return self
-
