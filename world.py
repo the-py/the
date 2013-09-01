@@ -1,5 +1,6 @@
 from context import Context
 from copy import copy
+from reporter import default
 
 class World(object):
     __instance = None
@@ -8,6 +9,7 @@ class World(object):
         if not cls.__instance:
             i = cls.__instance = super(World, cls).__new__(cls)
             i.message = error
+            i.reporter = default
             i.errors = []
         if error:
             i.add(error)
@@ -19,7 +21,7 @@ class World(object):
     enter = __enter__
 
     def __exit__(self, etype=None, evalue=None, trace=None):
-        self.out()
+        self.reporter(self.errors)
         self.errors = []
         Context().reset()
     leave = __exit__
@@ -27,14 +29,5 @@ class World(object):
     def add(self, error):
         self.errors.append([copy(Context().chain), error])
     append = add
-
-    def out(self):
-        for err in self.errors:
-            print "---- " + "->".join(map(lambda x: str(x.message), err[0])) + " ----"
-            if err[1]:
-                print "".join(err[1])
-            else:
-                print "passed"
-            print "=========================================================\n"
 
 
