@@ -16,8 +16,9 @@ class Default:
                 cprint("  {}). ".format(index) +
                        " ".join(map(lambda x: str(x.message), err[0])), "red")
                 message = err[1].pop()
-                print("    " + message)
-                cprint("    ".join([''] + err[1]), "grey")
+                cprint("    " + message)
+                cprint(" => " + err[1][0], "magenta", end='')
+                cprint("    ".join([''] + err[1][1:]), "grey")
 
     def ok(self, the):
         stdout.write(colored(' .', 'green'))
@@ -32,4 +33,4 @@ class Default:
         total = len(errors)
         passed = len(filter(lambda x: x[1], errors))
         print("    Passed: {}/{}.  Failed: {}/{}".format(passed, total, total-passed, total))
-        print("\n" * 3)
+        print("\n" * 2)
