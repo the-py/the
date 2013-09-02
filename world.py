@@ -1,15 +1,15 @@
 from context import Context
 from copy import copy
-from reporter import default, raw
+from reporter import Default
 
 class World(object):
     __instance = None
 
-    def __new__(cls, error=None, reporter = default):
+    def __new__(cls, error=None, reporter = Default):
         if not cls.__instance:
             i = cls.__instance = super(World, cls).__new__(cls)
             i.message = error
-            i.reporter = reporter
+            i.reporter = reporter()
             i.errors = []
         if error:
             i.add(error)
@@ -17,11 +17,12 @@ class World(object):
 
     def __enter__(self):
         Context().reset().stepin(self)
+        self.reporter.before(self)
         return self
     begin = enter = __enter__
 
     def __exit__(self, etype=None, evalue=None, trace=None):
-        self.reporter(self.errors)
+        self.reporter.after(self.errors)
         self.errors = []
         Context().reset()
         return True
@@ -29,7 +30,7 @@ class World(object):
 
     def add(self, error, current=None):
         chain = copy(Context().chain)
-        if current and not Context().current() == current:
+        if current and not current.as_context:
             chain.append(current)
         self.errors.append([chain, error])
     append = add
