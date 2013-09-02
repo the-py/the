@@ -1,7 +1,7 @@
 import re
 import traceback
-from world import World
 from context import Context
+from world import World
 
 class The(object):
     them = {'should', 'to', 'have', 'has', 'must', 'be', 'And', 'when', 'but', 'it'}
@@ -25,7 +25,6 @@ class The(object):
     def __init__(self, obj):
         self.neg = False
         self.message = self.obj = obj
-        self.world = World()
         self.__obj = None         # for function call
         self.as_context = False
 
@@ -59,11 +58,11 @@ class The(object):
         try:
             assert stmt, msg
         except Exception as e:
-            self.world.reporter.fail(traceback.format_stack() + [e.message], self)
-            self.world.append(traceback.format_stack() + [e.message], self)
+            World().reporter.fail(traceback.format_stack() + [e.message], self)
+            World().append(traceback.format_stack() + [e.message], self)
         else:
-            self.world.reporter.ok(self)
-            self.world.append(None)
+            World().reporter.ok(self)
+            World().append(None)
 
     def __check(self, stmt, msg=''):
         if self.neg:
