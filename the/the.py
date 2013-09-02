@@ -1,6 +1,6 @@
 import re
 import traceback
-from context import Context
+from context import Context, ContextException
 from world import World
 
 
@@ -60,7 +60,7 @@ class The(object):
 
     def __exit__(self, etype=None, evalue=None, trace=None):
         Context().stepout()
-        return False if etype else True
+        return False if etype and etype is not ContextException else True
 
     def __not(self):
         self.neg = True

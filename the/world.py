@@ -25,7 +25,7 @@ class World(object):
         self.reporter.after(self.errors)
         self.errors = []
         Context().reset()
-        return False if etype else True
+        return False if etype and etype is not ContextException else True
     done = leave = __exit__
 
     def __str__(self):

@@ -1,4 +1,4 @@
-from context import Context
+from context import Context, ContextException
 
 class Description(object):
     def __init__(self, message):
@@ -10,7 +10,7 @@ class Description(object):
 
     def __exit__(self, etype=None, evalue=None, trace=None):
         Context().stepout()
-        return False if etype else True
+        return False if etype and etype is not ContextException else True
 
     def __str__(self):
         return self.message

@@ -27,8 +27,8 @@ with Description("Test fibonacci function with some random args."):
 with Description("Test dictionary."):
     with The({"a": 1, "b": 2}) as it:
         with Description("check keys and values"):
+            skip()
             it.should.have.value("1").And.have.value("value")
-            print x
             it.has.key("a").And.has.key("xx")
 
 
