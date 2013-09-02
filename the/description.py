@@ -10,6 +10,9 @@ class Description(object):
 
     def __exit__(self, etype=None, evalue=None, trace=None):
         Context().stepout()
-        return True
+        return False if etype else True
+
+    def __str__(self):
+        return self.message
 
 Suite = Desc = Description

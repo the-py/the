@@ -8,7 +8,7 @@ class World(object):
     def __new__(cls, error=None, reporter = Default):
         if not cls.__instance:
             i = cls.__instance = super(World, cls).__new__(cls)
-            i.message = error
+            i.message = error or "[TEST]"
             i.reporter = reporter()
             i.errors = []
         if error:
@@ -25,14 +25,15 @@ class World(object):
         self.reporter.after(self.errors)
         self.errors = []
         Context().reset()
-        return True
+        return False if etype else True
     done = leave = __exit__
 
-    def add(self, error, current=None):
-        chain = copy(Context().chain)
-        if current and not current.as_context:
-            chain.append(current)
-        self.errors.append([chain, error])
+    def __str__(self):
+        return self.message
+
+    def add(self, trace=None):
+        chain = map(lambda x: str(x), (Context().chain))
+        self.errors.append([chain, trace])
     append = add
 
 TheTest = World

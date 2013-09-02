@@ -1,7 +1,4 @@
-from world import World, TheTest
-from the import The
-from context import skip
-from description import Description
+from the import *
 from termcolor import cprint
 import time
 
@@ -18,45 +15,24 @@ def fib(x):
     return _fib()
 
 World().begin()
+
 it = The(fib)
-it.when.apply(12).should.Return(1)
-it.when.apply(3).should.Return(2)
-with Description("The fib function"):
+with Description("Test fibonacci function with some random args."):
     with The(fib) as it:
-        it("should return some thing").when.apply(1).should.Return(1)
-        it("should return some thing").when.apply(1).should.Return(321)
+        it("should return 1").when.apply(1).should.Return(1)
+        it.when.apply(1).should.Return(22222222)
+        it("should return 321").when.apply(1).should.Return(321)
+        it("should return 121").when.apply(1).should.Return(121)
 
-The(fib)("author : wenjun.yan").when.apply(1).should.Return(1).And.when.apply(3).should.Return(2)
+with Description("Test dictionary."):
+    with The({"a": 1, "b": 2}) as it:
+        with Description("check keys and values"):
+            it.should.have.value("1").And.have.value("value")
+            print x
+            it.has.key("a").And.has.key("xx")
 
-# with The(iraise) as it:
-#     skip()
-#     it.apply('hell world').should.throw('ell.*')
-#     it.apply('hello world').should.throw('hello word')
-#     it.apply('hell world').should.Not.throw('hell world').but.throw('1hell')
 
-The(iraise).when.apply('hello world').should.throw('hello world')
+The(fib)("author : wenjun.yan").when.apply(1).should.Return(21)
+
 World().leave()
 
-# The(iraise).when.apply('hell world').should.nt.throw('hello world').but.throw('hell')
-
-# The({'a': 1, 'b': 2}).should.have.items('a', b=2)
-
-# The(1).should.Not.be.a(str)
-
-# The(1).should.nt.be.a(str)
-
-# The(1).Is(1)
-
-# World().leave()
-
-# with World("my app"):
-#     with Desc("UserConstroller"):
-#         it.should.respond_to("user")
-#         it.should.respond_to("password")
-
-#         with The(UserController.user) as it:
-#             it.when.apply(1,2,3).should.Return(2)
-#             it.when.apply(1,2,3).should.Return(2)
-
-#         with The(UserController.password) as it:
-#             it.when.apply(1).should.Return
