@@ -27,8 +27,11 @@ class World(object):
         return True
     done = leave = __exit__
 
-    def add(self, error):
-        self.errors.append([copy(Context().chain), error])
+    def add(self, error, current=None):
+        chain = copy(Context().chain)
+        if current and not Context().current() == current:
+            chain.append(current)
+        self.errors.append([chain, error])
     append = add
 
 TheTest = World

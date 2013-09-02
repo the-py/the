@@ -27,9 +27,8 @@ class The(object):
         self.message = self.obj = obj
         self.world = World()
         self.__obj = None         # for function call
-        self.in_context = True
 
-    def __call__(self, message):
+    def __call__(self, message=None):
         self.message = message
         return self
 
@@ -58,7 +57,7 @@ class The(object):
         try:
             assert stmt, msg
         except Exception as e:
-            self.world.append(traceback.format_stack() + [e.message])
+            self.world.append(traceback.format_stack() + [e.message], self)
         else:
             self.world.append(None)
 

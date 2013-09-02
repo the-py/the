@@ -11,8 +11,7 @@ def iraise(x):
 def fib(x):
     memo = {}
     def _fib():
-        if x == 0: return 0
-        if x == 1: return 1
+        if x in (0, 1): return 1
         if x not in memo: memo[x] = fib(x-2) + fib(x-1)
         return memo[x]
     return _fib()
@@ -26,7 +25,7 @@ with Description("The fib function"):
         it("should return some thing").when.apply(1).should.Return(1)
         it("should return some thing").when.apply(1).should.Return(321)
 
-The(fib).when.apply(1).should.Return(1).And.when.apply(3).should.Return(2)
+The(fib)("author : wenjun.yan").when.apply(1).should.Return(1).And.when.apply(3).should.Return(2)
 
 with The(iraise) as it:
     skip()
