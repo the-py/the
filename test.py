@@ -1,9 +1,10 @@
-from world import World
+from world import World, TheTest
 from the import The
 from context import skip
 from description import Description
+from termcolor import cprint
+import time
 
-World().enter()
 
 def iraise(x):
     raise Exception(x)
@@ -16,10 +17,10 @@ def fib(x):
         return memo[x]
     return _fib()
 
+World().begin()
 it = The(fib)
 it.when.apply(12).should.Return(1)
 it.when.apply(3).should.Return(2)
-
 with Description("The fib function"):
     with The(fib) as it:
         it("should return some thing").when.apply(1).should.Return(1)
@@ -27,14 +28,13 @@ with Description("The fib function"):
 
 The(fib)("author : wenjun.yan").when.apply(1).should.Return(1).And.when.apply(3).should.Return(2)
 
-with The(iraise) as it:
-    skip()
-    it.apply('hell world').should.throw('ell.*')
-    it.apply('hello world').should.throw('hello word')
-    it.apply('hell world').should.Not.throw('hell world').but.throw('1hell')
+# with The(iraise) as it:
+#     skip()
+#     it.apply('hell world').should.throw('ell.*')
+#     it.apply('hello world').should.throw('hello word')
+#     it.apply('hell world').should.Not.throw('hell world').but.throw('1hell')
 
 The(iraise).when.apply('hello world').should.throw('hello world')
-
 World().leave()
 
 # The(iraise).when.apply('hell world').should.nt.throw('hello world').but.throw('hell')

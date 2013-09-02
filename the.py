@@ -59,10 +59,10 @@ class The(object):
         try:
             assert stmt, msg
         except Exception as e:
-            self.world.reporter.ok(self)
+            self.world.reporter.fail(traceback.format_stack() + [e.message], self)
             self.world.append(traceback.format_stack() + [e.message], self)
         else:
-            self.world.reporter.fail(self)
+            self.world.reporter.ok(self)
             self.world.append(None)
 
     def __check(self, stmt, msg=''):
