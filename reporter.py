@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from termcolor import cprint, colored
 from sys import stdout
 
@@ -17,15 +18,15 @@ class Default:
                        " ".join(map(lambda x: str(x.message), err[0])), "red")
                 message = err[1].pop()
                 cprint("    " + message)
-                cprint(" => " + err[1][0], "magenta", end='')
+                cprint(" => " + err[1][0], "cyan", end='')
                 cprint("    ".join([''] + err[1][1:]), "grey")
 
     def ok(self, the):
-        stdout.write(colored(' .', 'green'))
+        stdout.write(colored(' ¶', 'green'))
         stdout.flush()
 
     def fail(self, tarce, the):
-        stdout.write(colored(' .', 'red'))
+        stdout.write(colored(' ¶', 'red'))
         stdout.flush()
 
     def __summary(self, errors):
