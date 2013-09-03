@@ -26,8 +26,10 @@ class The(object):
                                           "{} is not None".format(what(this.obj))),
         'exist': lambda this: this.__check(this.obj is not None,
                                            "{} is None".format(what(this.obj))),
+        # truthy
         'ok': lambda this: this.__check(this.obj,
                                         "{} is empty".format(what(this.obj))),
+        # falsy
         'empty': lambda this: this.__check(not this.obj,
                                            "{} is not empty".format(what(this.obj)))
     }
@@ -95,7 +97,8 @@ class The(object):
 
     def a(self, tp):
         return self.__check(isinstance(self.obj, tp),
-                            "{} is not an instance of the {}".format(what(self.obj), what(tp)))
+                            "{} is not an instance of the {}".
+                            format(what(self.obj), what(tp)))
     an = a
 
     def Is(self, other):
@@ -130,7 +133,8 @@ class The(object):
         ret = True
         for key, value in kwargs.iteritems():
             ret = ret and (key in self.obj) and (self.obj[key] == value)
-        return self.__check(ret, what(self.obj) + " doesn't contain " + what(kwargs))
+        return self.__check(ret, what(self.obj) +
+                            " doesn't contain " + what(kwargs))
 
     def key(self, key):
         return self.__check((key in self.obj),
@@ -141,30 +145,37 @@ class The(object):
                             what(self.obj) + " has no such value: " + what(val))
 
     def keys(self, *args):
-        for x in args:
-            self.key(x)
-        return self
+        keys = self.keys()
+        ret = all(map(lambda x: x in keys, args))
+        return self.__check(ret, what(self.obj) +
+                            " doesn't contain keys: " + what(args))
 
     def values(self, *args):
-        for x in args:
-            self.value(x)
-        return self
+        values = self.values()
+        ret = all(map(lambda x: x in values, args))
+        return self.__check(ret, what(self.obj) +
+                            " doesn't contain values: " + what(args))
 
     def property(self, key, value=None):
-        self.__check(hasattr(self.obj, key))
-        return self.__check(getattr(self.obj, key) == value) if value else self
+        ret = hasattr(self.obj, key)
+        if value:
+            ret = (getattr(self.obj, key) == value)
+        return self.__check(ret,  "{} have no such property: {} => {}".
+                            format(what(self.obj), what(key), what(value)))
     attr = attribute = property
 
-    def properties(self, *args, **kwargs):
-        for i in args:
-            self.property(i)
-        for key, value in kwargs.iteritems():
-            self.property(key, value)
-        return self
-    attrs = attributes = properties
+    # def properties(self, *args, **kwargs):
+    #     for i in args:
+    #         self.property(i)
+    #     for key, value in kwargs.iteritems():
+    #         self.property(key, value)
+    #     return self
+    # attrs = attributes = properties
 
     def include(self, item):
-        return self.__check(item in self.obj)
+        return self.__check(item in self.obj,
+                            "{} does not include {}".
+                            format(what(self.obj), what(item)))
 
     def apply(self, *args, **kwargs):
         self.__obj = lambda : self.obj(*args, **kwargs)
