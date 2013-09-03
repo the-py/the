@@ -13,35 +13,22 @@ def what(var):
         s += str(var)
     return s
 
+def args_detail(args):
+    ret = ",".join(map(lambda x: str(x), args[0]))
+    for key, value in args[1].iteritems():
+        ret += "," + str(key) + "=" + str(value)
+    return "(" + ret + ")"
+
 
 class The(object):
     them = {'should', 'to', 'have', 'has', 'must', 'be', 'And', 'when', 'but', 'it'}
-    coders = {
-        'nt': lambda this: this.__not(),
-        'true': lambda this: this.__check(this.obj is True,
-                                          "{} is not True".format(what(this.obj))),
-        'false': lambda this: this.__check(this.obj is False,
-                                           "{} is not False".format(what(this.obj))),
-        'none': lambda this: this.__check(this.obj is None,
-                                          "{} is not None".format(what(this.obj))),
-        'exist': lambda this: this.__check(this.obj is not None,
-                                           "{} is None".format(what(this.obj))),
-        # truthy
-        'ok': lambda this: this.__check(this.obj,
-                                        "{} is empty".format(what(this.obj))),
-        # falsy
-        'empty': lambda this: this.__check(not this.obj,
-                                           "{} is not empty".format(what(this.obj)))
-    }
-    coders['Not'] = coders['nt']
-    coders['yes'] = coders['ok']
-    coders['exists'] = coders['exist']
+    coders = {'nt', 'true', 'false', 'none', 'exist', 'ok', 'empty', 'Not', 'yes', 'exists'}
 
     def __init__(self, obj):
         self.neg = False
         self.message = ''
         self.obj = obj
-        self.__obj = None         # for function call
+        self.args = [[], {}]
 
     def __call__(self, message=None):
         self.message = message
@@ -51,7 +38,7 @@ class The(object):
         if attr in The.them:
             return self
         elif attr in The.coders:
-            The.coders[attr](self)
+            self.__call_coder(attr)
             return self
         else:
             raise AttributeError('No attribute ' + attr + ' found.')
@@ -64,9 +51,8 @@ class The(object):
         Context().stepout()
         return False if etype and etype is not ContextException else True
 
-    def __not(self):
-        self.neg = True
-        return self
+    def __call_coder(self, name):
+        getattr(self, '_' + name)()
 
     def __str__(self):
         return what(self.obj) + " " + self.message
@@ -89,7 +75,52 @@ class The(object):
             self.__assert(stmt, msg)
         return self
 
-    # ------------- api -----------------
+    # -- coder method --
+    #
+    # the following method are matchers(_nt not a matcher) but you don't call them explicitly
+    # just write somthing like this:
+    #    The(1).true
+    #    The(1).Not.empty
+    #
+    # when you ref to this kind of attribute in the coders dict,
+    # the object will try to prepend a '_' to the name of the attr
+    # and call that method in return.
+    # So that is to say, as the e.g. above,
+    # When you say `true`, it will first check if it is in `self.coders`,
+    # then find a method named as '_true' and call it.
+
+    def _nt(self):
+        self.neg = True
+        return self
+    _Not = _nt
+
+    def _true(self):
+        self.__check(self.obj is True,
+                     "{} is not True".format(what(self.obj)))
+
+    def _false(self):
+        self.__check(self.obj is False,
+                     "{} is not False".format(what(self.obj)))
+
+    def _none(self):
+        self.__check(self.obj is None,
+                     "{} is not None".format(what(self.obj)))
+
+    def _exist(self):
+        self.__check(self.obj is not None,
+                     "{} is None".format(what(self.obj)))
+    _exists = _exist
+
+    def _ok(self):
+        self.__check(self.obj,
+                     "{} is empty".format(what(self.obj)))
+    _yes = _ok
+
+    def _empty(self):
+        self.__check(not self.obj,
+                     "{} is not empty".format(what(self.obj)))
+
+    # ------------- api matchers -----------------
 
     def equal(self, value):
         return self.__check(self.obj == value,
@@ -178,13 +209,19 @@ class The(object):
                             format(what(self.obj), what(item)))
 
     def apply(self, *args, **kwargs):
-        self.__obj = lambda : self.obj(*args, **kwargs)
+        self.args = [args, kwargs]
         return self
 
     def Return(self, res):
-        fn = self.__obj or self.obj
-        ret = fn()
-        self.__check(ret == res, "{} is not equal to {}".format(what(ret), what(res)))
+        try:
+            ret = self.obj(*self.args[0], **self.args[1])
+        except Exception as e:
+            self.__check(False, "{} when called by {} throws an exception: {}".
+                         format(what(self.obj), args_detail(self.args), e))
+        else:
+            self.__check(ret == res, "{} when called by {} is equal to {} not {}".
+                         format(what(self.obj), args_detail(self.args),
+                                what(ret), what(res)))
         return self
 
     def respond_to(self, fn):
@@ -194,14 +231,16 @@ class The(object):
     method = respond_to
 
     def throw(self, regex=None, tp=Exception):
-        fn = self.__obj or self.obj
         try:
-            fn()
+            self.obj(*self.args[0], **self.args[1])
         except tp as e:
             if regex:
-                err = "{} throws <{} {}> not <{} {}>".format(
-                    self.obj,e.__class__.__name__, e.message, tp.__name__, regex)
-                self.__check(re.search(regex, e.message), err)
+                self.__check(re.search(regex, e.message),
+                             "{} when called by {} throws <{} {}> not <{} {}>".
+                             format(what(self.obj), args_detail(self.args),
+                                    e.__class__.__name__, e.message,
+                                    tp.__name__, regex))
         else:
-            self.__check(False, what(fn) + 'when called No exception throws!')
+            self.__check(False, '{} when called by {} No exception throws!'.
+                         format(what(self.obj, args_detail(self.args))))
         return self

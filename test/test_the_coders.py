@@ -1,29 +1,13 @@
 import unittest
-import sys
-sys.path.append('../the')
-from the import *
+from helper import world, the, safe
 
-class Fake(object):
-    def after(self, *args): pass
-    def begin(self, *args): pass
-    def ok(self, *args): pass
-    def fail(self, *args): pass
 
-world = World(None, Fake)
-the = The
-
-def safe(fn):
-    def _fn(*args, **kwargs):
-        world.errors = []
-        return fn(*args, **kwargs)
-    return _fn
-
-class TestThe(unittest.TestCase):
+class TestTheCoders(unittest.TestCase):
     def setUp(self):
         self.eq = self.assertEqual
         self.neq = self.assertNotEqual
 
-    # coders keyworld
+    # ---- coders keyworld ----
 
     # true
     @safe
@@ -51,6 +35,13 @@ class TestThe(unittest.TestCase):
         self.eq(len(world.errors), 1)
         self.neq(world.errors[0][1], None)
 
+    # Not
+    @safe
+    def test_not(self):
+        the(True).Not.false
+        self.eq(len(world.errors), 1)
+        self.eq(world.errors[0][1], None)
+
     # none
     @safe
     def test_none_is_none(self):
@@ -77,6 +68,29 @@ class TestThe(unittest.TestCase):
         self.eq(len(world.errors), 1)
         self.neq(world.errors[0][1], None)
 
+    @safe
+    def test_ok(self):
+        the(1).ok
+        self.eq(len(world.errors), 1)
+        self.eq(world.errors[0][1], None)
+
+    @safe
+    def test_not_ok(self):
+        the([]).ok
+        self.eq(len(world.errors), 1)
+        self.neq(world.errors[0][1], None)
+
+    @safe
+    def test_empty(self):
+        the([]).empty
+        self.eq(len(world.errors), 1)
+        self.eq(world.errors[0][1], None)
+
+    @safe
+    def test_not_empty(self):
+        the(1).empty
+        self.eq(len(world.errors), 1)
+        self.neq(world.errors[0][1], None)
 
 if __name__ == '__main__':
     unittest.main()
