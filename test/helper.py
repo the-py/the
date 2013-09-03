@@ -16,3 +16,10 @@ def safe(fn):
         world.errors = []
         return fn(*args, **kwargs)
     return _fn
+
+def ok():
+    return not world.errors[-1][-1]
+
+def reset():
+    world.errors = []
+

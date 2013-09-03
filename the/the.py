@@ -125,6 +125,7 @@ class The(object):
     def equal(self, value):
         return self.__check(self.obj == value,
                             what(self.obj) + " is not equal to " + what(value))
+    equals = equal
 
     def a(self, tp):
         return self.__check(isinstance(self.obj, tp),
@@ -136,13 +137,8 @@ class The(object):
         return self.__check(self.obj is other,
                             "{} is NOT {}".format(what(self.obj), what(other)))
 
-    def within(self, x, y=None):
-        x = range(x, y) if y else x
-        return self.__check(self.obj in x,
-                            what(self.obj) + " is not in range of " + what(x))
-
     def above(self, n):
-        return self.__check(self.obj > above,
+        return self.__check(self.obj > n,
                             what(self.obj) + " is not bigger than " + what(n))
     def below(self, n):
         return self.__check(self.obj < n,
@@ -153,7 +149,8 @@ class The(object):
 
     def length(self, n):
         return self.__check(len(self.obj) == n,
-                            "the length of " + what(self.obj) + " is not " + n)
+                            "the length of " + what(self.obj) +
+                            " is not " + what(n))
     size = length
 
     def item(self, key, value):
@@ -176,13 +173,13 @@ class The(object):
                             what(self.obj) + " has no such value: " + what(val))
 
     def keys(self, *args):
-        keys = self.keys()
+        keys = self.obj.keys()
         ret = all(map(lambda x: x in keys, args))
         return self.__check(ret, what(self.obj) +
                             " doesn't contain keys: " + what(args))
 
     def values(self, *args):
-        values = self.values()
+        values = self.obj.values()
         ret = all(map(lambda x: x in values, args))
         return self.__check(ret, what(self.obj) +
                             " doesn't contain values: " + what(args))
@@ -207,6 +204,14 @@ class The(object):
         return self.__check(item in self.obj,
                             "{} does not include {}".
                             format(what(self.obj), what(item)))
+    contains = contain = includes = include
+
+    def within(self, items):
+        return self.__check(self.obj in items,
+                            "{} is not in {}".
+                            format(what(self.obj), what(items)))
+    In = within
+
 
     def apply(self, *args, **kwargs):
         self.args = [args, kwargs]
