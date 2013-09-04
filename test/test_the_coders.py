@@ -1,96 +1,57 @@
 import unittest
-from helper import world, the, safe
+from helper import the
 
 
 class TestTheCoders(unittest.TestCase):
     def setUp(self):
         self.eq = self.assertEqual
         self.neq = self.assertNotEqual
+        self.r = self.assertRaises
+        self.true = self.assertTrue
 
     # ---- coders keyworld ----
 
     # true
-    @safe
-    def test_true_is_true(self):
-        the(True).true
-        self.eq(len(world.errors), 1)
-        self.eq(world.errors[0][1], None)
-
-    @safe
-    def test_anything_else_is_not_true(self):
-        the(False).true
-        self.eq(len(world.errors), 1)
-        self.neq(world.errors[0][1], None)
+    def test_true(self):
+        self.true(the(True).true)
+        with self.r(Exception):
+            the(False).true
 
     # false
-    @safe
-    def test_false_is_false(self):
-        the(False).false
-        self.eq(len(world.errors), 1)
-        self.eq(world.errors[0][1], None)
-
-    @safe
-    def test_anythin_else_is_not_false(self):
-        the(True).false
-        self.eq(len(world.errors), 1)
-        self.neq(world.errors[0][1], None)
+    def test_false(self):
+        self.true(the(False).false)
+        with self.r(Exception):
+            the(True).false
 
     # Not
-    @safe
     def test_not(self):
-        the(True).Not.false
-        self.eq(len(world.errors), 1)
-        self.eq(world.errors[0][1], None)
+        self.true(the(True).Not.false)
+        with self.r(Exception):
+            the(True).Not.True
 
     # none
-    @safe
     def test_none_is_none(self):
-        the(None).none
-        self.eq(len(world.errors), 1)
-        self.eq(world.errors[0][1], None)
-
-    @safe
-    def test_anything_else_is_not_none(self):
-        the(1).none
-        self.eq(len(world.errors), 1)
-        self.neq(world.errors[0][1], None)
+        self.true(the(None).none)
+        with self.r(Exception):
+            the(1).none
 
     # exist
-    @safe
-    def test_anthing_not_none_is_exist(self):
-        the(1).exist
-        self.eq(len(world.errors), 1)
-        self.eq(world.errors[0][1], None)
+    def test_exist(self):
+        self.true(the(1).exist)
+        with self.r(Exception):
+            the(None).exist
 
-    @safe
-    def test_none_is_not_exist(self):
-        the(None).exist
-        self.eq(len(world.errors), 1)
-        self.neq(world.errors[0][1], None)
-
-    @safe
+    # ok
     def test_ok(self):
-        the(1).ok
-        self.eq(len(world.errors), 1)
-        self.eq(world.errors[0][1], None)
+        self.true(the(1).ok)
+        with self.r(Exception):
+            the([]).ok
 
-    @safe
-    def test_not_ok(self):
-        the([]).ok
-        self.eq(len(world.errors), 1)
-        self.neq(world.errors[0][1], None)
-
-    @safe
+    # emtpy
     def test_empty(self):
-        the([]).empty
-        self.eq(len(world.errors), 1)
-        self.eq(world.errors[0][1], None)
-
-    @safe
-    def test_not_empty(self):
-        the(1).empty
-        self.eq(len(world.errors), 1)
-        self.neq(world.errors[0][1], None)
+        self.true(the([]).empty)
+        with self.r(Exception):
+            the(1).empty
 
 if __name__ == '__main__':
     unittest.main()

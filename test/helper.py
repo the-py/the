@@ -1,25 +1,5 @@
 import sys
-sys.path.append('../the')
-from the import *
-
-class Fake(object):
-    def after(self, *args): pass
-    def begin(self, *args): pass
-    def ok(self, *args): pass
-    def fail(self, *args): pass
-
-world = World(None, Fake)
+import os
+sys.path.append("/".join(os.path.abspath(__file__).split("/")[0:-2]))
+from src import *
 the = The
-
-def safe(fn):
-    def _fn(*args, **kwargs):
-        world.errors = []
-        return fn(*args, **kwargs)
-    return _fn
-
-def ok():
-    return not world.errors[-1][-1]
-
-def reset():
-    world.errors = []
-

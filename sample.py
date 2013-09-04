@@ -2,7 +2,6 @@ from the import *
 from termcolor import cprint
 import time
 
-
 def iraise(x):
     raise Exception(x)
 
@@ -18,21 +17,11 @@ World().begin()
 
 it = The(fib)
 with Description("Test fibonacci function with some random args."):
-    with The(fib) as it:
+    with It("should return the right answer", The(fib)) as it:
         it.when.apply(1).should.Return(1)
         it.when.apply(1,2,3, a=1, b=2).should.Return(22222222)
         it.when.apply(1).should.Return(321)
         it.when.apply(1).should.Return(121)
-
-with Description("Test dictionary."):
-    with The({"a": 1, "b": 2}) as it:
-        with Description("check keys and values"):
-            skip()
-            it.should.have.value("1").And.have.value("value")
-            it.has.key("a").And.has.key("xx")
-
-
-The(fib)("author : wenjun.yan").when.apply(1).should.Return(21)
 
 World().leave()
 

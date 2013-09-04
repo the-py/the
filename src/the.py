@@ -1,9 +1,4 @@
 import re
-import traceback
-from context import Context, ContextException
-from world import World
-
-
 
 def inspect(var):
     s = '<' + var.__class__.__name__ + '>'
@@ -44,12 +39,10 @@ class The(object):
             raise AttributeError('No attribute ' + attr + ' found.')
 
     def __enter__(self):
-        Context().stepin(self)
         return self
 
     def __exit__(self, etype=None, evalue=None, trace=None):
-        Context().stepout()
-        return False if etype and etype is not ContextException else True
+        pass
 
     def __call_coder(self, name):
         getattr(self, '_' + name)()
@@ -58,14 +51,7 @@ class The(object):
         return inspect(self.obj) + " " + self.message
 
     def __assert(self, stmt, msg):
-        try:
-            assert stmt, msg
-        except AssertionError as e:
-            World().reporter.fail(self, traceback.format_stack() + [e.message])
-            World().append(traceback.format_stack() + [e.message])
-        else:
-            World().reporter.ok(self)
-            World().append(None)
+        assert stmt, msg
 
     def __check(self, stmt, msg=''):
         if self.neg:

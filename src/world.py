@@ -35,19 +35,3 @@ class World(object):
         chain = map(lambda x: str(x), (Context().chain))
         self.errors.append([chain, trace])
     append = add
-
-TheTest = World
-
-# def function_in_the_world(fn, self_info=None):
-#     def _fn(*args, **kwargs):
-#         this = self_info or args[0]
-#         try:
-#             fn(*args, **kwargs)
-#         except Exception as e:
-#             World().reporter.fail(traceback.format_stack() + [e.message], this)
-#             World().append(traceback.format_stack() + [e.message], this)
-#         else:
-#             World().reporter.ok(this, None)
-#             World().append(None)
-#     return _fn
-
