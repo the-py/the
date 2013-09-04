@@ -15,7 +15,6 @@ def fib(x):
 
 World().begin()
 
-it = The(fib)
 with Description("Test fibonacci function with some random args "):
     with It("should return the right answer", The(fib)) as it:
         it.when.apply(1).should.Return(1)
@@ -23,5 +22,13 @@ with Description("Test fibonacci function with some random args "):
         it.when.apply(1).should.Return(321)
         it.when.apply(1).should.Return(121)
 
-World().leave()
+with Description("default assert statment"):
+    with It("should work"):
+        assert False, 'action!'
+
+    with Description(" just kidding"):
+        with It("should be True"):
+            assert False, 'action....'
+
+World().done()
 
