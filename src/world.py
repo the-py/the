@@ -16,7 +16,7 @@ class World(object):
         return cls.__instance
 
     def __enter__(self):
-        Context().reset().stepin(self)
+        Context().reset_chain().stepin(self)
         self.reporter.before(self)
         return self
     begin = enter = __enter__
@@ -24,7 +24,7 @@ class World(object):
     def __exit__(self, etype=None, evalue=None, trace=None):
         self.reporter.after(self.errors)
         self.errors = []
-        Context().reset()
+        Context().reset_chain()
         return False if etype and etype is not ContextException else True
     done = leave = __exit__
 
