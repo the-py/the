@@ -1,6 +1,16 @@
 # The python test assertion module
 
-Inspired by should.js
+Inspired by should.js and rspec
+
+# Install
+```bash
+pip install the
+```
+
+# Usage
+```python
+from the import The
+```
 
 # API
 ## matcher methods
@@ -171,4 +181,21 @@ The(1).should.be.truthy
 The(1).should.be.ok
 The(1).should.be.yes
 The(1).should.Not.be.empty
+```
+
+## Other buzzwords
+```python
+them = {'should', 'to', 'have', 'has', 'must',
+        'be', 'And', 'when', 'but', 'it'}
+```
+
+These words does nothing but return the object it self.
+
+So, instead of writing `The(1).Not.a(str)`, you write `The(1).should.Not.be.a(str).but.be.a(int)`.
+
+Sometimes they make your assertions more readable.
+
+Feel free to add your words if you like.
+```python
+The.them.add("whatever")
 ```
