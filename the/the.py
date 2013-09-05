@@ -109,7 +109,7 @@ class The(object):
     def _empty(self):
         self.__check(not self.obj,
                      "{} is not empty".format(inspect(self.obj)))
-    falsy = _no = _emtpy
+    falsy = _no = _empty
 
     # ------------- api matchers -----------------
 
