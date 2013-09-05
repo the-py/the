@@ -16,8 +16,7 @@ if __name__ == '__main__':
         author_email = "mylastnameisyan@gmail.com",
         license = 'MIT',
         url = 'https://github.com/v2e4lisp/the',
-        scripts = [],
-        packages = ['the'],
+        py_modules = ["the"],
         classifiers = [
             'License :: OSI Approved :: MIT License',
             'Topic :: Software Development :: Libraries',
