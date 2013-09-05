@@ -18,7 +18,7 @@ The((1,2,3)).should.be.a(tuple)
 ### test `is`
 ```python
 The(None).Is(None)
-The([1,2,3]).is_not([1,2,3])   # throws
+The([1,2,3]).is_not([1,2,3])
 ```
 
 ### test `>`
