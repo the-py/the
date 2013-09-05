@@ -135,29 +135,29 @@ The(1).should.Not.be.a(str)
 The([1,2,3]).should.nt.be.a(str)
 ```
 
-# test `true`
+### test `true`
 ```python
 The(True).should.be.true
 ```
 
-# test `false`
+### test `false`
 ```python
 The(False).should.be.false
 ```
 
-# test `none`
+### test `none`
 ```python
 The(None).should.be.none
 ```
 
-# test `not none`(exist)
+### test `not none`(exist)
 ```python
 The(1).should.exist
 The(1).exists
 The(1).should.Not.be.none
 ```
 
-# test `falsy`('', [], (), {}, False, None, 0)
+### test `falsy`('', [], (), {}, False, None, 0)
 ```python
 The([]).should.be.falsy
 The('').should.be.empty
@@ -165,7 +165,7 @@ The([]).should.be.empty
 The([]).should.be.no
 ```
 
-# test `truthy`
+### test `truthy`
 ```python
 The(1).should.be.truthy
 The(1).should.be.ok
