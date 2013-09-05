@@ -42,32 +42,38 @@ The([1,2,3]).should.have.length(3)
 The([1,2,3]).should.have.size(3)
 ```
 
-### test item in dict
+### test `in`
+```python
+The(1).should.In([1,2,3])
+The(1).should.within([1,2,3])
+```
+
+### test item `in` dict
 ```python
 The({"a": 1, "b": 2}).should.have.item("a", 1)
 ```
 
-### test items in dict
+### test items `in` dict
 ```python
 The({"a": 1, "b": 2}).should.have.items(a=1, b=2)
 ```
 
-### test key in dict
+### test key `in` dict
 ```python
 The({"a": 1, "b": 2}).should.have.key("a")
 ```
 
-### test keys in dict
+### test keys `in` dict
 ```python
 The({"a": 1, "b": 2}).should.have.keys("a", "b")
 ```
 
-### test value in dict
+### test value `in` dict
 ```python
 The({"a": 1, "b": 2}).should.have.value(1)
 ```
 
-### test values in dict
+### test values `in` dict
 ```python
 The({"a": 1, "b": 2}).should.have.values(1, 2)
 ```
@@ -88,18 +94,14 @@ The(A()).should.have.attribute('message')
 ```python
 The("hello").should.have.method("strip")
 The("hello").should.respond_to("strip")
+```
 
-# test item `in` list, tuple, dict, set ...
+### test include
+```python
 The([1,2,3]).should.include(1)
 The([1,2,3]).should.includes(1)
 The([1,2,3]).should.contain(1)
 The([1,2,3]).should.contains(1)
-```
-
-### test `in` the other way arond
-```python
-The(1).should.In([1,2,3])
-The(1).should.within([1,2,3])
 ```
 
 ### test function
