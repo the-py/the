@@ -13,7 +13,7 @@ if __name__ == '__main__':
         license = 'MIT',
         url = 'https://github.com/v2e4lisp/the',
         scripts = [],
-        packages = ['the'],
+        packages = ['src'],
         classifiers = [
             'License :: OSI Approved :: MIT License',
             'Topic :: Software Development :: Libraries',
