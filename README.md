@@ -3,7 +3,7 @@
 Inspired by should.js
 
 # API
-## matchers
+## matcher methods
 ### test `==`
 ```python
 The(1).should.be.equal(1)
@@ -117,4 +117,58 @@ def fib(x):
 The(fib).when.apply(1).should.Return(1)
 
 The(fib).when.apply(1,2,3,4).should.throw()
+```
+
+## matcher property
+These property will trigger the corresponding protected matcher methods, which are not being called explicitly.
+
+All the keywords
+```python
+coders = {'nt', 'true', 'false', 'none', 'exist',
+           'ok', 'empty', 'Not', 'yes', 'exists',
+           'truthy', 'falsy', 'no'}
+```
+
+### test `not`
+```python
+The(1).should.Not.be.a(str)
+The([1,2,3]).should.nt.be.a(str)
+```
+
+# test `true`
+```python
+The(True).should.be.true
+```
+
+# test `false`
+```python
+The(False).should.be.false
+```
+
+# test `none`
+```python
+The(None).should.be.none
+```
+
+# test `not none`(exist)
+```python
+The(1).should.exist
+The(1).exists
+The(1).should.Not.be.none
+```
+
+# test `falsy`('', [], (), {}, False, None, 0)
+```python
+The([]).should.be.falsy
+The('').should.be.empty
+The([]).should.be.empty
+The([]).should.be.no
+```
+
+# test `truthy`
+```python
+The(1).should.be.truthy
+The(1).should.be.ok
+The(1).should.be.yes
+The(1).should.Not.be.empty
 ```
