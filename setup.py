@@ -20,6 +20,5 @@ if __name__ == '__main__':
         classifiers = [
             'License :: OSI Approved :: MIT License',
             'Topic :: Software Development :: Libraries',
-            'Topic :: Test'
         ]
     )
