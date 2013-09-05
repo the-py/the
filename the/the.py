@@ -16,8 +16,12 @@ def arginspect(args):
 
 
 class The(object):
-    them = {'should', 'to', 'have', 'has', 'must', 'be', 'And', 'when', 'but', 'it'}
-    coders = {'nt', 'true', 'false', 'none', 'exist', 'ok', 'empty', 'Not', 'yes', 'exists'}
+    them = {'should', 'to', 'have', 'has', 'must',
+            'be', 'And', 'when', 'but', 'it'}
+
+    coders = {'nt', 'true', 'false', 'none', 'exist',
+              'ok', 'empty', 'Not', 'yes', 'exists',
+              'truthy', 'falsy', 'no'}
 
     def __init__(self, obj):
         self.neg = False
@@ -100,11 +104,12 @@ class The(object):
     def _ok(self):
         self.__check(self.obj,
                      "{} is empty".format(inspect(self.obj)))
-    _yes = _ok
+    _truthy = _yes = _ok
 
     def _empty(self):
         self.__check(not self.obj,
                      "{} is not empty".format(inspect(self.obj)))
+    falsy = _no = _emtpy
 
     # ------------- api matchers -----------------
 
