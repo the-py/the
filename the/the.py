@@ -123,6 +123,12 @@ class The(object):
         return self.__check(self.obj is other,
                             "{} is NOT {}".format(inspect(self.obj), inspect(other)))
 
+    def is_not(self, other):
+        return self.__check(self.obj is not other,
+                            "{} IS {}".format(inspect(self.obj), inspect(other)))
+    Is_not = is_not
+
+
     def above(self, n):
         return self.__check(self.obj > n,
                             inspect(self.obj) + " is not bigger than " + inspect(n))
