@@ -3,13 +3,13 @@
 from setuptools import setup
 
 def readme():
-    with open("./README.md") as it:
+    with open("README.md") as it:
         return it.read()
 
 if __name__ == '__main__':
     setup(
         name = 'the',
-        version = '0.0.1',
+        version = '0.0.3',
         description = 'rspec/should.js assertion style for python test',
         long_description = readme(),
         author = "Yan Wenjun",
