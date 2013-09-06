@@ -25,6 +25,11 @@ class TestTheMatchers(unittest.TestCase):
         with self.r(Exception):
             the(True).Is(False)
 
+    def test_is_not(self):
+        self.true(the(1).is_not(2))
+        with self.r(Exception):
+            the(False).is_not(False)
+
     def test_within(self):
         self.true(the(1).within(range(1,3)))
         with self.r(Exception):
