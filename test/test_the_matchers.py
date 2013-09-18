@@ -99,6 +99,15 @@ class TestTheMatchers(unittest.TestCase):
         with self.r(Exception):
             the(A).has.property("x")
 
+    def test_properties(self):
+        class A(object):
+            a = 1
+            b = 2
+
+        self.true(the(A).has.properties(a=1, b=2))
+        with self.r(Exception):
+            the(A).has.properties(a=1, b=3)
+
     def test_include(self):
         l = [1,2,3,4]
         self.true(the(l).should.include(3))

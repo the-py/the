@@ -1,19 +1,5 @@
 import re
 
-def inspect(var):
-    s = '<' + var.__class__.__name__ + '>'
-    if hasattr(var, "__name__"):
-        s += var.__name__
-    else:
-        s += str(var)
-    return s
-
-def arginspect(args):
-    ret = ",".join(map(lambda x: str(x), args[0]))
-    for key, value in args[1].iteritems():
-        ret += "," + str(key) + "=" + str(value)
-    return "(" + ret + ")"
-
 
 class The(object):
     them = {'should', 'to', 'have', 'has', 'must',
@@ -67,15 +53,16 @@ class The(object):
 
     # -- coder method --
     #
-    # the following method are matchers(_nt not a matcher) but you don't call them explicitly
-    # just write somthing like this:
+    # the following method are matchers(_nt not a matcher) but you don't
+    # have to call them explicitly just write somthing like this will work:
     #    The(1).true
     #    The(1).Not.empty
     #
     # when you ref to this kind of attribute in the coders dict,
     # the object will try to prepend a '_' to the name of the attr
     # and call that method in return.
-    # So that is to say, as the e.g. above,
+    #
+    # So as in the e.g. above,
     # When you say `true`, it will first check if it is in `self.coders`,
     # then find a method named as '_true' and call it.
 
@@ -115,7 +102,8 @@ class The(object):
 
     def equal(self, value):
         return self.__check(self.obj == value,
-                            inspect(self.obj) + " is not equal to " + inspect(value))
+                            inspect(self.obj) +
+                            " is not equal to " + inspect(value))
     equals = equal
 
     def a(self, tp):
@@ -126,20 +114,24 @@ class The(object):
 
     def Is(self, other):
         return self.__check(self.obj is other,
-                            "{} is NOT {}".format(inspect(self.obj), inspect(other)))
+                            "{} is NOT {}".format(inspect(self.obj),
+                                                  inspect(other)))
 
     def is_not(self, other):
         return self.__check(self.obj is not other,
-                            "{} IS {}".format(inspect(self.obj), inspect(other)))
+                            "{} IS {}".format(inspect(self.obj),
+                                              inspect(other)))
     Is_not = is_not
-
 
     def above(self, n):
         return self.__check(self.obj > n,
-                            inspect(self.obj) + " is not bigger than " + inspect(n))
+                            inspect(self.obj) +
+                            " is not bigger than " + inspect(n))
+
     def below(self, n):
         return self.__check(self.obj < n,
-                            inspect(self.obj) + " is not less than " + inspect(n))
+                            inspect(self.obj) +
+                            " is not less than " + inspect(n))
 
     def match(self, regex):
         return self.__check(re.search(regex, self.obj))
@@ -155,11 +147,9 @@ class The(object):
                             "no such item {}: {}".format(key, inspect(value)))
 
     def items(self, **kwargs):
-        ret = True
         for key, value in kwargs.iteritems():
-            ret = ret and (key in self.obj) and (self.obj[key] == value)
-        return self.__check(ret, inspect(self.obj) +
-                            " doesn't contain " + inspect(kwargs))
+            self.item(key, value)
+        return self
 
     def key(self, key):
         return self.__check((key in self.obj),
@@ -167,35 +157,35 @@ class The(object):
 
     def value(self, val):
         return self.__check(val in self.obj.values(),
-                            inspect(self.obj) + " has no such value: " + inspect(val))
+                            inspect(self.obj) +
+                            " has no such value: " + inspect(val))
 
     def keys(self, *args):
-        keys = self.obj.keys()
-        ret = all(map(lambda x: x in keys, args))
-        return self.__check(ret, inspect(self.obj) +
-                            " doesn't contain keys: " + inspect(args))
+        for key in args:
+            self.key(key)
+        return self
 
     def values(self, *args):
-        values = self.obj.values()
-        ret = all(map(lambda x: x in values, args))
-        return self.__check(ret, inspect(self.obj) +
-                            " doesn't contain values: " + inspect(args))
+        for value in args:
+            self.value(value)
+        return self
 
     def property(self, key, value=None):
         ret = hasattr(self.obj, key)
         if value:
             ret = (getattr(self.obj, key) == value)
-        return self.__check(ret,  "{} have no such property: {} => {}".
-                            format(inspect(self.obj), inspect(key), inspect(value)))
+        return self.__check(ret,  "{} have no such property: {} = {}".
+                            format(inspect(self.obj),
+                                   inspect(key), inspect(value)))
     attr = attribute = property
 
-    # def properties(self, *args, **kwargs):
-    #     for i in args:
-    #         self.property(i)
-    #     for key, value in kwargs.iteritems():
-    #         self.property(key, value)
-    #     return self
-    # attrs = attributes = properties
+    def properties(self, *args, **kwargs):
+        for i in args:
+            self.property(i)
+        for key, value in kwargs.iteritems():
+            self.property(key, value)
+        return self
+    attrs = attributes = properties
 
     def include(self, item):
         return self.__check(item in self.obj,
@@ -209,7 +199,6 @@ class The(object):
                             format(inspect(self.obj), inspect(items)))
     In = within
 
-
     def apply(self, *args, **kwargs):
         self.args = [args, kwargs]
         return self
@@ -221,7 +210,8 @@ class The(object):
             self.__check(False, "{} when called by {} throws an exception: {}".
                          format(inspect(self.obj), arginspect(self.args), e))
         else:
-            self.__check(ret == res, "{} when called by {} is equal to {} not {}".
+            self.__check(ret == res,
+                         "{} when called by {} is equal to {} not {}".
                          format(inspect(self.obj), arginspect(self.args),
                                 inspect(ret), inspect(res)))
         return self
@@ -229,7 +219,8 @@ class The(object):
     def respond_to(self, fn):
         return self.__check(self.__check(hasattr(self.obj, fn)) and
                             self.__check(callable(getattr(self.obj, fn))),
-                            inspect(self.obj) + " not respond to " + inspect(fn))
+                            inspect(self.obj) +
+                            " not respond to " + inspect(fn))
     method = respond_to
 
     def throw(self, regex=None, tp=Exception):
@@ -246,3 +237,14 @@ class The(object):
             self.__check(False, '{} when called by {} No exception throws!'.
                          format(inspect(self.obj, arginspect(self.args))))
         return self
+
+
+def inspect(var):
+    return str(var)
+
+
+def arginspect(args):
+    ret = ",".join(map(lambda x: str(x), args[0]))
+    for key, value in args[1].iteritems():
+        ret += "," + str(key) + "=" + str(value)
+        return "(" + ret + ")"
