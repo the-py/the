@@ -240,7 +240,15 @@ class The(object):
 
 
 def inspect(var):
-    return str(var)
+    if not hasattr(var, "__class__"):
+        return str(var)
+    s = '<' + var.__class__.__name__ + '>'
+    if hasattr(var, "__name__"):
+        s += var.__name__
+    else:
+        s += str(var)
+    return s
+
 
 
 def arginspect(args):
