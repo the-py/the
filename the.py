@@ -1,6 +1,5 @@
 import re
 
-
 class The(object):
     them = {'should', 'to', 'have', 'has', 'must',
             'be', 'And', 'when', 'but', 'it'}
@@ -34,11 +33,38 @@ class The(object):
     def __exit__(self, etype=None, evalue=None, trace=None):
         pass
 
-    def __call_coder(self, name):
-        getattr(self, '_' + name)()
-
     def __str__(self):
         return _inspect(self.obj) + " " + self.message
+
+    def __eq__(self, other):
+        return self.eq(other)
+
+    def __lt__(self, other):
+        return self.lt(other)
+
+    def __gt__(self, other):
+        return self.gt(other)
+
+    def __le__(self, other):
+        return self.le(other)
+
+    def __ge__(self, other):
+        return self.ge(other)
+
+    def __ne__(self, other):
+        return self.ne(other)
+
+    def __contains__(self, other):
+        self.include(other)
+
+    def __len__(self):
+        return The(len(self.obj))
+
+    def __getitem__(self, key):
+        return The(self.obj[key])
+
+    def __iter__(self):
+        return (The(i) for i in self.obj)
 
     def __assert(self, stmt, msg):
         assert stmt, msg
@@ -50,6 +76,9 @@ class The(object):
         else:
             self.__assert(stmt, msg)
         return self
+
+    def __call_coder(self, name):
+        getattr(self, '_' + name)()
 
     # -- coder method --
     #
@@ -96,15 +125,42 @@ class The(object):
     def _empty(self):
         self.__check(not self.obj,
                      "{} is not empty".format(_inspect(self.obj)))
-    falsy = _no = _empty
+    _falsy = _no = _empty
 
     # ------------- api matchers -----------------
 
     def equal(self, value):
         return self.__check(self.obj == value,
                             _inspect(self.obj) +
-                            " is not equal to " + _inspect(value))
-    equals = equal
+                            " is not == " + _inspect(value))
+    eq = equals = equal
+
+    def above(self, n):
+        return self.__check(self.obj > n,
+                            _inspect(self.obj) +
+                            " is not > " + _inspect(n))
+    gt = above
+
+    def below(self, n):
+        return self.__check(self.obj < n,
+                            _inspect(self.obj) +
+                            " is not < " + _inspect(n))
+    lt = below
+
+    def ge(self, n):
+        return self.__check(self.obj >= n,
+                            _inspect(self.obj) +
+                            " is not >= " + _inspect(n))
+
+    def le(self, n):
+        return self.__check(self.obj <= n,
+                            _inspect(self.obj) +
+                            " is not <= " + _inspect(n))
+
+    def ne(self, n):
+        return self.__check(self.obj != n,
+                            _inspect(self.obj) +
+                            " is not != " + _inspect(n))
 
     def a(self, tp):
         return self.__check(isinstance(self.obj, tp),
@@ -122,16 +178,6 @@ class The(object):
                             "{} IS {}".format(_inspect(self.obj),
                                               _inspect(other)))
     Is_not = is_not
-
-    def above(self, n):
-        return self.__check(self.obj > n,
-                            _inspect(self.obj) +
-                            " is not bigger than " + _inspect(n))
-
-    def below(self, n):
-        return self.__check(self.obj < n,
-                            _inspect(self.obj) +
-                            " is not less than " + _inspect(n))
 
     def match(self, regex):
         return self.__check(re.search(regex, self.obj))
