@@ -57,9 +57,6 @@ class The(object):
     def __contains__(self, other):
         self.include(other)
 
-    def __len__(self):
-        return The(len(self.obj))
-
     def __getitem__(self, key):
         return The(self.obj[key])
 
