@@ -10,7 +10,7 @@ pip install the
 # History
 - 0.1.4
     1. add `expect' keyword
-    2. overwriting magic methods so you can write assertion like normal expr. E.G. `expect(1) > 0' is a valid assertion. The
+    2. overwriting magic methods so you can write assertion like normal expr. E.G. 'expect(1) > 0' is a valid assertion. The
     following operation or methods are all overwritten.
         > <, <=, >, >=, ==, !=, `__contains__`, `__getitem__`, `__iter__`
 
