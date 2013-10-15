@@ -290,11 +290,11 @@ class The(object):
 
     @classmethod
     def exception(cls, regex=None, tp=Exception):
-        return TheBlock(regex, tp)
+        return _TheBlock(regex, tp)
 
 the = expect = The
 
-class TheBlock(object):
+class _TheBlock(object):
     def __init__(self, regex=None, tp=Exception):
         self.regex = regex
         self.tp = tp
