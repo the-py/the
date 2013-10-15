@@ -178,7 +178,8 @@ class The(object):
     Is_not = is_not
 
     def match(self, regex):
-        return self.__check(re.search(regex, self.obj))
+        return self.__check(re.search(regex, self.obj),
+                            "{} and {} don't match".format(regex, self.obj))
 
     def length(self, n):
         return self.__check(len(self.obj) == n,
@@ -243,6 +244,11 @@ class The(object):
                             format(_inspect(self.obj), _inspect(items)))
     In = within
 
+    def subclass_of(self, c):
+        return self.__check(issubclass(self.obj, c),
+                            "{} is not subclass of {}".
+                            format(_inspect(self.obj), _inspect(c)))
+
     def apply(self, *args, **kwargs):
         self.args = [args, kwargs]
         return self
@@ -282,15 +288,33 @@ class The(object):
                          format(_inspect(self.obj, _arginspect(self.args))))
         return self
 
+    @classmethod
+    def exception(cls, regex=None, tp=Exception):
+        return TheBlock(regex, tp)
 
 the = expect = The
 
+class TheBlock(object):
+    def __init__(self, regex=None, tp=Exception):
+        self.regex = regex
+        self.tp = tp
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self, etype=None, evalue=None, trace=None):
+        if not etype:
+            assert False, "No exception throws!"
+        expect(etype).subclass_of(self.tp)
+        if self.regex:
+            expect(evalue.message).match(self.regex)
+        return True
 
 # --- helper methods ---
 
 def _inspect(var):
     if var is None:
-        return "unknown"
+        return "None"
     if not hasattr(var, "__class__"):
         return str(var)
     s = '<' + var.__class__.__name__ + '>'
