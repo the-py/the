@@ -1,5 +1,7 @@
 # The python test assertion module
 
+[![Build Status](https://travis-ci.org/v2e4lisp/the.png)](https://travis-ci.org/v2e4lisp/the)
+
 Inspired by should.js and rspec
 
 # Install
