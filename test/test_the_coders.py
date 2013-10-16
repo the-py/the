@@ -27,7 +27,7 @@ class TestTheCoders(unittest.TestCase):
     def test_not(self):
         self.true(the(True).Not.false)
         with self.r(Exception):
-            the(True).Not.True
+            the(True).Not.true
 
     # none
     def test_none_is_none(self):
