@@ -11,13 +11,8 @@ class The(object):
 
     def __init__(self, obj):
         self.neg = False
-        self.message = ''
         self.obj = obj
         self.args = [[], {}]
-
-    def __call__(self, message=None):
-        self.message = message
-        return self
 
     def __getattr__(self, attr):
         if attr in The.them:
@@ -35,7 +30,7 @@ class The(object):
         pass
 
     def __str__(self):
-        return _inspect(self.obj) + " " + self.message
+        return _inspect(self.obj)
 
     def __eq__(self, other):
         return self.eq(other)
@@ -192,7 +187,7 @@ class The(object):
                             "no such item {}: {}".format(key, _inspect(value)))
 
     def items(self, **kwargs):
-        for key, value in kwargs.iteritems():
+        for key, value in kwargs.items():
             self.item(key, value)
         return self
 
@@ -227,7 +222,7 @@ class The(object):
     def properties(self, *args, **kwargs):
         for i in args:
             self.property(i)
-        for key, value in kwargs.iteritems():
+        for key, value in kwargs.items():
             self.property(key, value)
         return self
     attrs = attributes = properties
@@ -278,10 +273,10 @@ class The(object):
             self.obj(*self.args[0], **self.args[1])
         except tp as e:
             if regex:
-                self.__check(re.search(regex, e.message),
+                self.__check(re.search(regex, str(e)),
                              "{} when called by {} throws <{} {}> not <{} {}>".
                              format(_inspect(self.obj), _arginspect(self.args),
-                                    e.__class__.__name__, e.message,
+                                    e.__class__.__name__, str(e),
                                     tp.__name__, regex))
         else:
             self.__check(False, '{} when called by {} No exception throws!'.
@@ -307,7 +302,7 @@ class _TheBlock(object):
             assert False, "No exception throws!"
         expect(etype).subclass_of(self.tp)
         if self.regex:
-            expect(evalue.message).match(self.regex)
+            expect(str(evalue)).match(self.regex)
         return True
 
 # --- helper methods ---
