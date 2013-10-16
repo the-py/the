@@ -327,6 +327,6 @@ def _inspect(var):
 
 def _arginspect(args):
     ret = ",".join(map(lambda x: str(x), args[0]))
-    for key, value in args[1].iteritems():
+    for key, value in args[1].items():
         ret += "," + str(key) + "=" + str(value)
-        return "(" + ret + ")"
+    return "(" + ret + ")"
