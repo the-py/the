@@ -258,7 +258,3 @@ Feel free to add your words if you like.
 ```python
 the.them.add("whatever")
 ```
-
-## TODO
-1. need a simple api
-2. implement expect.exception() to assert exception raised for code block.
