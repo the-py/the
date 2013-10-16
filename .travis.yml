@@ -4,4 +4,6 @@ python:
   - "3.2"
   - "3.3"
 
+before_script: cd test
+
 script: python -m unittest discover
