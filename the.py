@@ -6,8 +6,8 @@ class The(object):
             'And', 'when', 'but', 'it'}
 
     coders = {'nt', 'true', 'false', 'none', 'exist',
-              'ok', 'empty', 'Not', 'NOT', 'yes',
-              'exists', 'truthy', 'falsy', 'no'}
+              'ok', 'empty', 'Not', 'NOT', 'not_to', 'should_not',
+              'yes', 'exists', 'truthy', 'falsy', 'no'}
 
     def __init__(self, obj):
         self.neg = False
@@ -92,7 +92,7 @@ class The(object):
     def _nt(self):
         self.neg = True
         return self
-    _NOT = _Not = _nt
+    _should_not = _not_to = _NOT = _Not = _nt
 
     def _true(self):
         self.__check(self.obj is True,
