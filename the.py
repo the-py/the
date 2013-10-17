@@ -3,7 +3,7 @@ import re
 
 class The(object):
     them = {'should', 'to', 'have', 'has', 'must',
-            'be', 'And', 'when', 'but', 'it'}
+            'And', 'when', 'but', 'it'}
 
     coders = {'nt', 'true', 'false', 'none', 'exist',
               'ok', 'empty', 'Not', 'yes', 'exists',
@@ -13,6 +13,7 @@ class The(object):
         self.neg = False
         self.obj = obj
         self.args = [[], {}]
+        self.be = _TheBe(self)
 
     def __getattr__(self, attr):
         if attr in The.them:
@@ -91,7 +92,7 @@ class The(object):
     def _nt(self):
         self.neg = True
         return self
-    _Not = _nt
+    _NOT = _Not = _nt
 
     def _true(self):
         self.__check(self.obj is True,
@@ -161,16 +162,10 @@ class The(object):
                             format(_inspect(self.obj), _inspect(tp)))
     an = a
 
-    def Is(self, other):
+    def same_as(self, other):
         return self.__check(self.obj is other,
                             "{} is NOT {}".format(_inspect(self.obj),
                                                   _inspect(other)))
-
-    def is_not(self, other):
-        return self.__check(self.obj is not other,
-                            "{} IS {}".format(_inspect(self.obj),
-                                              _inspect(other)))
-    Is_not = is_not
 
     def match(self, regex):
         return self.__check(re.search(regex, self.obj),
@@ -287,6 +282,7 @@ class The(object):
     def exception(cls, regex=None, tp=Exception):
         return _TheBlock(regex, tp)
 
+# should style, expect style
 the = expect = The
 
 class _TheBlock(object):
@@ -304,6 +300,16 @@ class _TheBlock(object):
         if self.regex:
             expect(str(evalue)).match(self.regex)
         return True
+
+class _TheBe(object):
+    def __init__(self, the):
+        self.the = the
+
+    def __call__(self, obj):
+        return self.the.same_as(obj)
+
+    def __getattr__(self, attr):
+        return getattr(self.the, attr)
 
 # --- helper methods ---
 
