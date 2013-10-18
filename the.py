@@ -19,7 +19,7 @@ class The(object):
     coders = {'true', 'false', 'none', 'exist',
               'ok', 'empty', 'NOT', 'not_to', 'should_not'}
 
-    plugin = {'be': _TheBe}
+    plugins = {'be': _TheBe}
 
     def __init__(self, obj):
         self.neg = False
@@ -284,7 +284,7 @@ class The(object):
     @classmethod
     def use(cls, **kwargs):
         for k, v in kwargs.items():
-            cls.plugin[k] = v
+            cls.plugins[k] = v
 
 # should style, expect style
 the = expect = The
