@@ -41,22 +41,15 @@ class TestTheMagic(unittest.TestCase):
             the(1) != 1
 
     def test_contains(self):
-        self.true(the(1) in range(1, 3))
+        self.true(1 in the(range(1, 3)))
         with self.r(Exception):
-            the(1) in range(2, 10)
+            1 in the(range(2, 10))
 
     def test_getitem(self):
         d = {"a": 1, "b": 2, "c": 3}
         self.true(the(d)["a"] == 1)
         with self.r(Exception):
             the(d)["a"] == 2
-
-    def test_iter(self):
-        for i in the(range(1, 4)):
-            i > 0
-        with self.r(Exception):
-            for i in the(range(1, 4)):
-                i > 1
 
 if __name__ == '__main__':
     unittest.main()
