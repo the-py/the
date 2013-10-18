@@ -114,11 +114,11 @@ class TestTheMatchers(unittest.TestCase):
         it.apply([1, 2, 3])
         self.eq(it.args, [([1, 2, 3], ), {}])
 
-    def test_return(self):
+    def test_result(self):
         it = the(len)
-        self.true(it.apply([1, 2, 3]).should.Return(3))
+        self.true(it.apply([1, 2, 3]).should.have.result(3))
         with self.r(Exception):
-            it.apply([1, 2, 3]).should.Return(1)
+            it.apply([1, 2, 3]).should.have.result(1)
 
     def test_throw(self):
         def ex():

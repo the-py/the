@@ -23,11 +23,11 @@ class TestTheCoders(unittest.TestCase):
         with self.r(Exception):
             the(True).false
 
-    # Not
-    def test_not(self):
-        self.true(the(True).Not.false)
+    # NOT
+    def test_should_not(self):
+        self.true(the(True).should_not.be.false)
         with self.r(Exception):
-            the(True).Not.true
+            the(True).should_not.be.true
 
     # none
     def test_none_is_none(self):

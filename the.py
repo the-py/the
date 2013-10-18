@@ -53,12 +53,10 @@ class The(object):
 
     def __contains__(self, other):
         self.include(other)
+        return self
 
     def __getitem__(self, key):
         return The(self.obj[key])
-
-    def __iter__(self):
-        return (The(i) for i in self.obj)
 
     def __assert(self, stmt, msg):
         assert stmt, msg
@@ -76,7 +74,7 @@ class The(object):
 
     # -- coder method --
     #
-    # the following method are matchers(_nt not a matcher) but you don't
+    # the following method are matchers(except `should_not`) but you don't
     # have to call them explicitly just write somthing like this will work:
     #    The(1).true
     #    The(1).Not.empty
@@ -89,10 +87,10 @@ class The(object):
     # When you say `true`, it will first check if it is in `self.coders`,
     # then find a method named as '_true' and call it.
 
-    def _nt(self):
+    def _should_not(self):
         self.neg = True
         return self
-    _should_not = _not_to = _NOT = _Not = _nt
+    _not_to = _NOT = _should_not
 
     def _true(self):
         self.__check(self.obj is True,
@@ -109,37 +107,34 @@ class The(object):
     def _exist(self):
         self.__check(self.obj is not None,
                      "{} is None".format(_inspect(self.obj)))
-    _exists = _exist
 
     def _ok(self):
         self.__check(self.obj,
                      "{} is empty".format(_inspect(self.obj)))
-    _truthy = _yes = _ok
 
     def _empty(self):
         self.__check(not self.obj,
                      "{} is not empty".format(_inspect(self.obj)))
-    _falsy = _no = _empty
 
     # ------------- api matchers -----------------
 
-    def equal(self, value):
+    def eq(self, value):
         return self.__check(self.obj == value,
                             _inspect(self.obj) +
                             " is not == " + _inspect(value))
-    eq = equals = equal
+    equal = eq
 
-    def above(self, n):
+    def gt(self, n):
         return self.__check(self.obj > n,
                             _inspect(self.obj) +
                             " is not > " + _inspect(n))
-    gt = above
+    above = gt
 
-    def below(self, n):
+    def lt(self, n):
         return self.__check(self.obj < n,
                             _inspect(self.obj) +
                             " is not < " + _inspect(n))
-    lt = below
+    below = lt
 
     def ge(self, n):
         return self.__check(self.obj >= n,
@@ -226,15 +221,14 @@ class The(object):
         return self.__check(item in self.obj,
                             "{} does not include {}".
                             format(_inspect(self.obj), _inspect(item)))
-    contains = contain = includes = include
+    contain = include
 
     def within(self, items):
         return self.__check(self.obj in items,
                             "{} is not in {}".
                             format(_inspect(self.obj), _inspect(items)))
-    In = within
 
-    def subclass_of(self, c):
+    def inherit(self, c):
         return self.__check(issubclass(self.obj, c),
                             "{} is not subclass of {}".
                             format(_inspect(self.obj), _inspect(c)))
@@ -243,7 +237,7 @@ class The(object):
         self.args = [args, kwargs]
         return self
 
-    def Return(self, res):
+    def result(self, res):
         try:
             ret = self.obj(*self.args[0], **self.args[1])
         except Exception as e:
@@ -256,12 +250,11 @@ class The(object):
                                 _inspect(ret), _inspect(res)))
         return self
 
-    def respond_to(self, fn):
+    def method(self, fn):
         return self.__check(self.__check(hasattr(self.obj, fn)) and
                             self.__check(callable(getattr(self.obj, fn))),
                             _inspect(self.obj) +
                             " not respond to " + _inspect(fn))
-    method = respond_to
 
     def throw(self, regex=None, tp=Exception):
         try:
@@ -296,7 +289,7 @@ class _TheBlock(object):
     def __exit__(self, etype=None, evalue=None, trace=None):
         if not etype:
             assert False, "No exception throws!"
-        expect(etype).subclass_of(self.tp)
+        expect(etype).inherit(self.tp)
         if self.regex:
             expect(str(evalue)).match(self.regex)
         return True
