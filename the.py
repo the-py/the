@@ -1,6 +1,7 @@
 import re
+import inspect
 
-# the default `be` plugin to test whether objects are identical
+
 class _TheBe(object):
     def __init__(self, the):
         self.the = the
@@ -13,24 +14,35 @@ class _TheBe(object):
     def __getattr__(self, attr):
         return getattr(self.the, attr)
 
+
+class _TheA(object):
+    def __init__(self, the):
+        self.the = the
+
+    def __call__(self, tp):
+            return self.the._check(isinstance(self.the.obj, tp),
+                                   "{} is not an instance of the {}".
+                                   format(_inspect(self.the.obj), _inspect(tp)))
+
+    def __getattr__(self, attr):
+        return getattr(self.the, attr)
+
 class The(object):
-    them = {'should', 'to', 'have', 'must', 'when', 'but', 'it'}
+    them = {'should', 'to', 'have', 'must', 'when', 'but'}
 
     coders = {'true', 'false', 'none', 'exist',
               'ok', 'empty', 'NOT', 'not_to', 'should_not'}
-
-    plugins = {'be': _TheBe}
 
     def __init__(self, obj):
         self.neg = False
         self.obj = obj
         self.args = [[], {}]
-        # self.be = _TheBe(self)
+        self.be = _TheBe(self)
+        self.an = self.a = _TheA(self)
+
 
     def __getattr__(self, attr):
-        if attr in The.plugin:
-            return The.plugin[attr](self)
-        elif attr in The.them:
+        if attr in The.them:
             return self
         elif attr in The.coders:
             self.__call_coder(attr)
@@ -162,12 +174,6 @@ class The(object):
                             _inspect(self.obj) +
                             " is not != " + _inspect(n))
 
-    def a(self, tp):
-        return self._check(isinstance(self.obj, tp),
-                            "{} is not an instance of the {}".
-                            format(_inspect(self.obj), _inspect(tp)))
-    an = a
-
     def match(self, regex):
         return self._check(re.search(regex, self.obj),
                             "{} and {} don't match".format(regex, self.obj))
@@ -257,10 +263,9 @@ class The(object):
         return self
 
     def method(self, fn):
-        return self._check(self._check(hasattr(self.obj, fn)) and
-                            self._check(callable(getattr(self.obj, fn))),
-                            _inspect(self.obj) +
-                            " not respond to " + _inspect(fn))
+        msg = _inspect(self.obj) + " don't have method " + _inspect(fn)
+        ret = hasattr(self.obj, fn) and callable(getattr(self.obj, fn))
+        return self._check(ret, msg)
 
     def throw(self, regex=None, tp=Exception):
         try:
@@ -282,9 +287,15 @@ class The(object):
         return _TheBlock(regex, tp)
 
     @classmethod
-    def use(cls, **kwargs):
-        for k, v in kwargs.items():
-            cls.plugins[k] = v
+    def use(cls, *args, **kwargs):
+        for item in args:
+            if isinstance(item, list):
+                cls.use(*item)
+            elif isinstance(item, dict):
+                _add_method(item)
+            else:
+                _add_method({item.__name__: item})
+        _add_method(kwargs)
 
 # should style, expect style
 the = expect = The
@@ -307,6 +318,19 @@ class _TheBlock(object):
 
 
 # --- helper methods ---
+
+def _add_method(methods):
+    for name, method in methods.items():
+        if not _have_args(method):
+            The.coders.add(name)
+            name = "_" + name
+        setattr(The, name, method)
+
+
+def _have_args(fn):
+    spec = inspect.getargspec(fn)
+    return bool(spec.args) or spec.varargs or spec.keywords
+
 
 def _inspect(var):
     if var is None:
