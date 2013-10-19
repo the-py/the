@@ -329,7 +329,8 @@ def _add_method(methods):
 
 def _have_args(fn):
     spec = inspect.getargspec(fn)
-    return bool(spec.args) or spec.varargs or spec.keywords
+    args = spec.args[1:]
+    return bool(args) or spec.varargs or spec.keywords
 
 
 def _inspect(var):
