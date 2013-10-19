@@ -289,7 +289,9 @@ class The(object):
     @classmethod
     def use(cls, *args, **kwargs):
         for item in args:
-            if isinstance(item, list):
+            if inspect.ismodule(item):
+                cls.use(item.API)
+            elif isinstance(item, list):
                 cls.use(*item)
             elif isinstance(item, dict):
                 _add_method(item)
