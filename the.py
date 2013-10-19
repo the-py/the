@@ -28,7 +28,7 @@ class _TheA(object):
         return getattr(self.the, attr)
 
 class The(object):
-    them = {'should', 'to', 'have', 'must', 'when', 'but'}
+    them = {'should', 'to', 'have', 'when'}
 
     coders = {'true', 'false', 'none', 'exist',
               'ok', 'empty', 'NOT', 'not_to', 'should_not'}
@@ -100,7 +100,7 @@ class The(object):
     # the following method are matchers(except `should_not`) but you don't
     # have to call them explicitly just write somthing like this will work:
     #    The(1).true
-    #    The(1).Not.empty
+    #    The(1).NOT.empty
     #
     # when you ref to this kind of attribute in the coders dict,
     # the object will try to prepend a '_' to the name of the attr
