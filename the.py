@@ -14,17 +14,38 @@ class _TheBe(object):
     def __getattr__(self, attr):
         return getattr(self.the, attr)
 
+
 class _TheA(object):
     def __init__(self, the):
         self.the = the
 
     def __call__(self, tp):
         return self.the._check(isinstance(self.the.obj, tp),
-                               _msg("{} is an instance of {}", self.the.obj, tp),
-                               _msg("{} is not an instance of {}", self.the.obj, tp))
+                               _msg("{} is an instance of {}",
+                                    self.the.obj, tp),
+                               _msg("{} is not an instance of {}",
+                                    self.the.obj, tp))
 
     def __getattr__(self, attr):
         return getattr(self.the, attr)
+
+
+class _TheBlock(object):
+    def __init__(self, regex=None, tp=Exception):
+        self.regex = regex
+        self.tp = tp
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self, etype=None, evalue=None, trace=None):
+        if not etype:
+            assert False, "No exception throws!"
+        expect(etype).inherit(self.tp)
+        if self.regex:
+            expect(str(evalue)).match(self.regex)
+        return True
+
 
 class The(object):
     them = {'should', 'to', 'have', 'when'}
@@ -153,8 +174,8 @@ class The(object):
 
     def gt(self, n):
         return self._check(self.obj > n,
-                           _msg("{} is greater than {}" ,self.obj, n),
-                           _msg("{} is not greater than {}" ,self.obj, n))
+                           _msg("{} is greater than {}", self.obj, n),
+                           _msg("{} is not greater than {}", self.obj, n))
     above = gt
 
     def lt(self, n):
@@ -165,13 +186,16 @@ class The(object):
 
     def ge(self, n):
         return self._check(self.obj >= n,
-                           _msg("{} is greater than or equal to {}", self.obj, n),
-                           _msg("{} is not greater than or equal to {}", self.obj, n))
+                           _msg("{} is greater than or equal to {}",
+                                self.obj, n),
+                           _msg("{} is not greater than or equal to {}",
+                                self.obj, n))
 
     def le(self, n):
         return self._check(self.obj <= n,
                            _msg("{} is less than or equal to {}", self.obj, n),
-                           _msg("{} is not less than or equal to {}", self.obj, n))
+                           _msg("{} is not less than or equal to {}",
+                                self.obj, n))
 
     def ne(self, n):
         return self._check(self.obj != n,
@@ -189,14 +213,17 @@ class The(object):
                            _msg("the length of {} is not {}", self.obj, n))
     size = length
 
-    def item(self, part=None, **kwargs):
-        part = part or kwargs
-        for key, value in part.items():
+    def item(self, **kwargs):
+        return self.contain(kwargs)
+    items = item
+
+    def contain(self, subdict):
+        for key, value in subdict.items():
             self._check((key in self.obj) and (self.obj[key] == value),
                         _msg("{} have item '{} = {}'", self.obj, key, value),
-                        _msg("{} do not have item '{} = {}'", self.obj, key, value))
+                        _msg("{} do not have item '{} = {}'",
+                             self.obj, key, value))
         return self
-    items = item
 
     def key(self, *keys):
         for key in keys:
@@ -223,8 +250,10 @@ class The(object):
         for key in keys:
             value = kwargs[key]
             self._check(getattr(self.obj, key) == value,
-                        _msg("{} have property: {} = {}", self.obj, key, value),
-                        _msg("{} have property: {} = {}", self.obj, key, value))
+                        _msg("{} have property: {} = {}",
+                             self.obj, key, value),
+                        _msg("{} have property: {} = {}",
+                             self.obj, key, value))
         return self
     properties = property
 
@@ -232,7 +261,6 @@ class The(object):
         return self._check(item in self.obj,
                            _msg("{} include {}", self.obj, item),
                            _msg("{} do not include {}", self.obj, item))
-    contain = include
 
     def within(self, items):
         return self._check(self.obj in items,
@@ -309,21 +337,6 @@ class The(object):
 # should style, expect style
 the = expect = The
 
-class _TheBlock(object):
-    def __init__(self, regex=None, tp=Exception):
-        self.regex = regex
-        self.tp = tp
-
-    def __enter__(self):
-        pass
-
-    def __exit__(self, etype=None, evalue=None, trace=None):
-        if not etype:
-            assert False, "No exception throws!"
-        expect(etype).inherit(self.tp)
-        if self.regex:
-            expect(str(evalue)).match(self.regex)
-        return True
 
 # --- helper methods ---
 
