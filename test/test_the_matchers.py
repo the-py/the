@@ -1,5 +1,5 @@
 import unittest
-from helper import the
+from the import *
 
 
 class TestTheMatchers(unittest.TestCase):
@@ -52,9 +52,10 @@ class TestTheMatchers(unittest.TestCase):
 
     def test_item(self):
         d = {"a": 1, "b": 2, "c": 3}
-        self.true(the(d).have.item("a", 1))
+        the(d).item(a=1)
+        # self.true(the(d).item(a=1))
         with self.r(Exception):
-            the(d).have.item("a", 2)
+            the(d).have.item(a=2)
 
     def test_key(self):
         d = {"a": 1, "b": 2, "c": 3}

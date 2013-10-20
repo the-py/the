@@ -1,5 +1,5 @@
 import unittest
-from helper import the
+from the import *
 
 
 class TestTheMagic(unittest.TestCase):

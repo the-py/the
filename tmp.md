@@ -79,13 +79,19 @@ expect("abc").to.match("a")
 ### assert `dict.item`
 ```python
 d = {a: 1, b: 2}
-the(d).have.item(a,1)
+the(d).shouldhave.item(a,1)
+expect(d).to.item(a,1)
 
 d = {a: 1, b: 2}
-the(d).have.item(a,1)
+the(d).should.have.items(a=1, b=2)
+expect(d).to.have.items(a=1, b=2)
 ```
 
 ### assert `dict.key`
+```python
+d = {a: 1, b: 2}
+the(d).should.have.key("a")
+```
 
 ### assert `dict.value`
 

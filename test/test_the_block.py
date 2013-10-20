@@ -1,5 +1,5 @@
 import unittest
-from helper import the, expect
+from the import *
 
 
 class TestTheBlock(unittest.TestCase):

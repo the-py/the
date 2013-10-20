@@ -8,21 +8,20 @@ class _TheBe(object):
 
     def __call__(self, obj):
         return self.the._check(self.the.obj is obj,
-                               "{} is NOT {}".format(_inspect(self.the.obj),
-                                                     _inspect(obj)))
+                               _msg("{} is {}", self.the.obj, obj),
+                               _msg("{} is not {}", self.the.obj, obj))
 
     def __getattr__(self, attr):
         return getattr(self.the, attr)
-
 
 class _TheA(object):
     def __init__(self, the):
         self.the = the
 
     def __call__(self, tp):
-            return self.the._check(isinstance(self.the.obj, tp),
-                                   "{} is not an instance of the {}".
-                                   format(_inspect(self.the.obj), _inspect(tp)))
+        return self.the._check(isinstance(self.the.obj, tp),
+                               _msg("{} is an instance of {}", self.the.obj, tp),
+                               _msg("{} is not an instance of {}", self.the.obj, tp))
 
     def __getattr__(self, attr):
         return getattr(self.the, attr)
@@ -56,7 +55,7 @@ class The(object):
         pass
 
     def __str__(self):
-        return _inspect(self.obj)
+        return _i(self.obj)
 
     def __eq__(self, other):
         return self.eq(other)
@@ -83,12 +82,12 @@ class The(object):
     def __getitem__(self, key):
         return The(self.obj[key])
 
-    def _check(self, stmt, msg=''):
+    def _check(self, stmt, msg='', negmsg=''):
         if self.neg:
-            assert (not stmt), msg
+            assert (not stmt), "EXPECT: " + negmsg
             self.neg = False
         else:
-            assert stmt, msg
+            assert stmt, "EXPECT: " + msg
         return self
 
     def __call_coder(self, name):
@@ -115,170 +114,177 @@ class The(object):
     _not_to = _NOT = _should_not
 
     def _true(self):
-        self._check(self.obj is True,
-                     "{} is not True".format(_inspect(self.obj)))
+        return self._check(self.obj is True,
+                           _msg("{} is True", self.obj),
+                           _msg("{} is not True", self.obj))
 
     def _false(self):
-        self._check(self.obj is False,
-                     "{} is not False".format(_inspect(self.obj)))
+        return self._check(self.obj is False,
+                           _msg("{} is False", self.obj),
+                           _msg("{} is not False", self.obj))
 
     def _none(self):
-        self._check(self.obj is None,
-                     "{} is not None".format(_inspect(self.obj)))
+        return self._check(self.obj is None,
+                           _msg("{} is None", self.obj),
+                           _msg("{} is not None", self.obj))
 
     def _exist(self):
-        self._check(self.obj is not None,
-                     "{} is None".format(_inspect(self.obj)))
+        return self._check(self.obj is not None,
+                           _msg("{} is not None", self.obj),
+                           _msg("{} is None", self.obj))
 
     def _ok(self):
-        self._check(self.obj,
-                     "{} is empty".format(_inspect(self.obj)))
+        return self._check(self.obj,
+                           _msg("{} is not empty", self.obj),
+                           _msg("{} is empty", self.obj))
 
     def _empty(self):
-        self._check(not self.obj,
-                     "{} is not empty".format(_inspect(self.obj)))
+        return self._check(not self.obj,
+                           _msg("{} is empty", self.obj),
+                           _msg("{} is not empty", self.obj))
 
     # ------------- api matchers -----------------
 
-    def eq(self, value):
-        return self._check(self.obj == value,
-                            _inspect(self.obj) +
-                            " is not == " + _inspect(value))
+    def eq(self, n):
+        return self._check(self.obj == n,
+                           _msg("{} is equal to {}", self.obj, n),
+                           _msg("{} is not equal to {}", self.obj, n))
     equal = eq
 
     def gt(self, n):
         return self._check(self.obj > n,
-                            _inspect(self.obj) +
-                            " is not > " + _inspect(n))
+                           _msg("{} is greater than {}" ,self.obj, n),
+                           _msg("{} is not greater than {}" ,self.obj, n))
     above = gt
 
     def lt(self, n):
         return self._check(self.obj < n,
-                            _inspect(self.obj) +
-                            " is not < " + _inspect(n))
+                           _msg("{} is less than {}", self.obj, n),
+                           _msg("{} is not less than {}", self.obj, n))
     below = lt
 
     def ge(self, n):
         return self._check(self.obj >= n,
-                            _inspect(self.obj) +
-                            " is not >= " + _inspect(n))
+                           _msg("{} is greater than or equal to {}", self.obj, n),
+                           _msg("{} is not greater than or equal to {}", self.obj, n))
 
     def le(self, n):
         return self._check(self.obj <= n,
-                            _inspect(self.obj) +
-                            " is not <= " + _inspect(n))
+                           _msg("{} is less than or equal to {}", self.obj, n),
+                           _msg("{} is not less than or equal to {}", self.obj, n))
 
     def ne(self, n):
         return self._check(self.obj != n,
-                            _inspect(self.obj) +
-                            " is not != " + _inspect(n))
+                           _msg("{} is not equal to {}", self.obj, n),
+                           _msg("{} is equal to {}", self.obj, n))
 
     def match(self, regex):
         return self._check(re.search(regex, self.obj),
-                            "{} and {} don't match".format(regex, self.obj))
+                           _msg("{} match {}", self.obj, regex),
+                           _msg("{} do not matches {}", self.obj, regex))
 
     def length(self, n):
         return self._check(len(self.obj) == n,
-                            "the length of " + _inspect(self.obj) +
-                            " is not " + _inspect(n))
+                           _msg("the length of {} is {}", self.obj, n),
+                           _msg("the length of {} is not {}", self.obj, n))
     size = length
 
-    def item(self, key, value):
-        return self._check((key in self.obj) and (self.obj[key] == value),
-                            "no such item {}: {}".format(key, _inspect(value)))
-
-    def items(self, **kwargs):
-        for key, value in kwargs.items():
-            self.item(key, value)
+    def item(self, part=None, **kwargs):
+        part = part or kwargs
+        for key, value in part.items():
+            self._check((key in self.obj) and (self.obj[key] == value),
+                        _msg("{} have item '{} = {}'", self.obj, key, value),
+                        _msg("{} do not have item '{} = {}'", self.obj, key, value))
         return self
+    items = item
 
-    def key(self, key):
-        return self._check((key in self.obj),
-                            _inspect(self.obj) + " has no such key: " + key)
+    def key(self, *keys):
+        for key in keys:
+            self._check((key in self.obj),
+                        _msg("{} have key '{}'", self.obj, key),
+                        _msg("{} do not have key '{}'", self.obj, key))
+        return self
+    keys = key
 
-    def value(self, val):
-        return self._check(val in self.obj.values(),
-                            _inspect(self.obj) +
-                            " has no such value: " + _inspect(val))
+    def value(self, *vals):
+        for val in vals:
+            self._check(val in self.obj.values(),
+                        _msg("{} have value: {}", self.obj, val),
+                        _msg("{} do not have value: {}", self.obj, val))
+        return self
+    values = value
 
-    def keys(self, *args):
+    def property(self, *args, **kwargs):
+        keys = kwargs.keys()
         for key in args:
-            self.key(key)
+            self._check(hasattr(self.obj, key),
+                        _msg("{} have property: {}.", self.obj, key),
+                        _msg("{} do not have property: {}.", self.obj, key))
+        for key in keys:
+            value = kwargs[key]
+            self._check(getattr(self.obj, key) == value,
+                        _msg("{} have property: {} = {}", self.obj, key, value),
+                        _msg("{} have property: {} = {}", self.obj, key, value))
         return self
-
-    def values(self, *args):
-        for value in args:
-            self.value(value)
-        return self
-
-    def property(self, key, value=None):
-        ret = hasattr(self.obj, key)
-        if value:
-            ret = (getattr(self.obj, key) == value)
-        return self._check(ret,  "{} have no such property: {} = {}".
-                            format(_inspect(self.obj),
-                                   _inspect(key), _inspect(value)))
-    attr = attribute = property
-
-    def properties(self, *args, **kwargs):
-        for i in args:
-            self.property(i)
-        for key, value in kwargs.items():
-            self.property(key, value)
-        return self
-    attrs = attributes = properties
+    properties = property
 
     def include(self, item):
         return self._check(item in self.obj,
-                            "{} does not include {}".
-                            format(_inspect(self.obj), _inspect(item)))
+                           _msg("{} include {}", self.obj, item),
+                           _msg("{} do not include {}", self.obj, item))
     contain = include
 
     def within(self, items):
         return self._check(self.obj in items,
-                            "{} is not in {}".
-                            format(_inspect(self.obj), _inspect(items)))
+                           _msg("{} is an item of {}", self.obj, items),
+                           _msg("{} is not an item of {}", self.obj, items))
 
     def inherit(self, c):
         return self._check(issubclass(self.obj, c),
-                            "{} is not subclass of {}".
-                            format(_inspect(self.obj), _inspect(c)))
+                           _msg("{} is a subclass of {}", self.obj, c),
+                           _msg("{} is not a subclass of {}", self.obj, c))
 
     def apply(self, *args, **kwargs):
         self.args = [args, kwargs]
         return self
 
     def result(self, res):
+        msg = "{} when called by {} is equal to {}"
+        nemsg = "{} when called by {} is not equal to {}"
         try:
             ret = self.obj(*self.args[0], **self.args[1])
         except Exception as e:
-            self._check(False, "{} when called by {} throws an exception: {}".
-                         format(_inspect(self.obj), _arginspect(self.args), e))
+            msg += " Exception throws: {}."
+            self._check(False, msg.format(_i(self.obj), _ai(self.args), e))
+
         else:
             self._check(ret == res,
-                         "{} when called by {} is equal to {} not {}".
-                         format(_inspect(self.obj), _arginspect(self.args),
-                                _inspect(ret), _inspect(res)))
+                        _msg(msg, _i(self.obj), _ai(self.args), _i(ret)),
+                        _msg(nemsg, _i(self.obj), _ai(self.args), _i(ret)))
         return self
 
     def method(self, fn):
-        msg = _inspect(self.obj) + " don't have method " + _inspect(fn)
         ret = hasattr(self.obj, fn) and callable(getattr(self.obj, fn))
-        return self._check(ret, msg)
+        return self._check(ret,
+                           _msg("{} have method: {}", self.obj, fn),
+                           _msg("{} do not thave method: {}", self.obj, fn))
 
     def throw(self, regex=None, tp=Exception):
         try:
             self.obj(*self.args[0], **self.args[1])
         except tp as e:
+            msg = "{} when called by {} throw <{} {}>"
+            nemsg = "{} when called by {} do not throw <{} {}>"
             if regex:
                 self._check(re.search(regex, str(e)),
-                             "{} when called by {} throws <{} {}> not <{} {}>".
-                             format(_inspect(self.obj), _arginspect(self.args),
-                                    e.__class__.__name__, str(e),
-                                    tp.__name__, regex))
+                            msg.format(_i(self.obj), _ai(self.args),
+                                       tp.__name__, regex),
+                            nemsg.format(_i(self.obj), _ai(self.args),
+                                         tp.__name__, regex))
         else:
-            self._check(False, '{} when called by {} No exception throws!'.
-                         format(_inspect(self.obj, _arginspect(self.args))))
+            msg = "{} when called by {} throw <{} {}>. No exception throws!"
+            self._check(False, msg.format(_i(self.obj), _ai(self.args),
+                                          tp.__name__, regex))
         return self
 
     @classmethod
@@ -319,7 +325,6 @@ class _TheBlock(object):
             expect(str(evalue)).match(self.regex)
         return True
 
-
 # --- helper methods ---
 
 def _add_method(methods):
@@ -336,7 +341,12 @@ def _have_args(fn):
     return bool(args) or spec.varargs or spec.keywords
 
 
-def _inspect(var):
+def _msg(msg, *args):
+    args = [_i(arg) for arg in args]
+    return msg.format(*args)
+
+
+def _i(var):
     if var is None:
         return "None"
     if not hasattr(var, "__class__"):
@@ -349,7 +359,7 @@ def _inspect(var):
     return s
 
 
-def _arginspect(args):
+def _ai(args):
     ret = ",".join(map(lambda x: str(x), args[0]))
     for key, value in args[1].items():
         ret += "," + str(key) + "=" + str(value)
