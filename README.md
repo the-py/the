@@ -1,242 +1,142 @@
-# The python test assertion module
-
-[![Build Status](https://travis-ci.org/v2e4lisp/the.png)](https://travis-ci.org/v2e4lisp/the)
-
-Inspired by should.js and rspec
-
-# Install
-```bash
-pip install the
-```
-
-# History
-- 0.1.4
-    1. add `expect` keyword
-    2. overwriting magic methods so you can write assertion like normal expr. E.G. `expect(1) > 0` is a valid assertion. The
-    following operation or methods are all overwritten.
-        `<`, `<=`, `>`, `>=`, `==`, `!=`,
-        `__contains__`, `__getitem__`, `__iter__`
-
-- 0.0.4
-    1. initial
-
-# Usage
+### assert `>`, `<`, `>=`, `<=`, `==`
 ```python
-# `the` and `expect` are IDENTICAL.
-from the import the, expect
+expect(1) > 0
+expect(1).gt(0)
+expect(1).above(0)
+
+expect(1) >= 0
+expect(1).ge(0)
+
+expect(1) < 2
+expect(1).lt(0)
+expect(1).below(0)
+
+expect(1) <= 2
+expect(1).le(0)
+
+expect(1) == 1
+expect(1).eq(1)
+expect(1).equal(1)
 ```
 
-# API
-## matcher methods
-### test `==`
-```python
-the(1).should.be.equal(1)
-the(1) == 1
-expect(1).to == (1)
-```
-
-### test `isinstance`
-```python
-the(1).should.be.an(int)
-the((1,2,3)).should.be.a(tuple)
-```
-
-### test `is`
-```python
-the(None).Is(None)
-the([1,2,3]).is_not([1,2,3])
-```
-
-### test `>`
-```python
-the(1).should.be.above(0)
-```
-
-### test `<`
-```python
-the(0).should.be.below(1)
-```
-
-### test match string
-```python
-the('a small module for testing').should.match('module')
-```
-
-### test `len`
-```python
-the([1,2,3]).should.have.length(3)
-the([1,2,3]).should.have.size(3)
-```
-
-### test `in`
-```python
-the(1).should.In([1,2,3])
-the(1).should.within([1,2,3])
-expect(1) in range(1,3)
-```
-
-### test item `in` dict
-```python
-the({"a": 1, "b": 2}).should.have.item("a", 1)
-```
-
-### test items `in` dict
-```python
-the({"a": 1, "b": 2}).should.have.items(a=1, b=2)
-```
-
-### test key `in` dict
-```python
-the({"a": 1, "b": 2}).should.have.key("a")
-```
-
-### test keys `in` dict
-```python
-the({"a": 1, "b": 2}).should.have.keys("a", "b")
-```
-
-### test value `in` dict
-```python
-the({"a": 1, "b": 2}).should.have.value(1)
-```
-
-### test values `in` dict
-```python
-the({"a": 1, "b": 2}).should.have.values(1, 2)
-```
-
-### test object property
-```python
-class A(object):
-    def __init__(self):
-        self.message = 'hello world'
-
-The(A()).should.have.property('message')
-The(A()).should.have.property('message', 'hello world')
-The(A()).should.have.attr('message')
-The(A()).should.have.attribute('message')
-```
-
-### test object properties
-```python
-class A(object):
-    def __init__(self):
-        self.message = 'hello world'
-        self.sender = 'me'
-        self.receiver = 'you'
-
-The(A()).should.have.properties('message', 'sender', 'receiver')
-expect(A()).to.have.properties(sender='me', receiver='you')
-```
-
-### test object method
-```python
-the("hello").should.have.method("strip")
-the("hello").should.respond_to("strip")
-```
-
-### test include
-```python
-the([1,2,3]).should.include(1)
-the([1,2,3]).should.includes(1)
-the([1,2,3]).should.contain(1)
-the([1,2,3]).should.contains(1)
-```
-
-### test function
-```python
-def fib(x):
-    memo = {}
-    def _fib():
-        if x in (0, 1): return 1
-        if x not in memo: memo[x] = fib(x-2) + fib(x-1)
-        return memo[x]
-    return _fib()
-
-the(fib).when.apply(1).should.Return(1)
-
-the(fib).when.apply(1,2,3,4).should.throw()
-```
-
-### get item from dict will return an `the` object
-```python
-it = the({a: 1, b: 2})
-it['a'] == 1
-```
-
-### when iterate through an `the` object, each item will still be an `the` object.
-```python
-for i in the(range(1,10)):
-    i.should > 0
-```
-
-## matcher property
-these property will trigger the corresponding protected matcher methods.
-
-All the keywords
-```python
-coders = {'nt', 'true', 'false', 'none', 'exist',
-           'ok', 'empty', 'Not', 'yes', 'exists',
-           'truthy', 'falsy', 'no'}
-```
-
-### test `not`
-```python
-the(1).should.Not.be.a(str)
-the([1,2,3]).should.nt.be.a(str)
-```
-
-### test `true`
+### assert `True`, `False`, `None`
 ```python
 the(True).should.be.true
-```
+expect(True).to.be.true
 
-### test `false`
-```python
 the(False).should.be.false
-```
+expect(False).to.be.false
 
-### test `none`
-```python
 the(None).should.be.none
+expect(None).to.be.none
 ```
 
-### test `not none`(exist)
+### assert `truthy`, `falsy`
 ```python
-the(1).should.exist
-the(1).exists
-the(1).should.Not.be.none
-```
-
-### test `falsy`('', [], (), {}, False, None, 0)
-```python
-the([]).should.be.falsy
-the('').should.be.empty
-the([]).should.be.empty
-the([]).should.be.no
-```
-
-### test `truthy`
-```python
-the(1).should.be.truthy
 the(1).should.be.ok
-the(1).should.be.yes
-the(1).should.Not.be.empty
+expect(1).to.be.ok
+
+the("").should.be.empty
+expect("").to.be.empty
 ```
 
-## Other buzzwords
+### assert `is`
 ```python
-them = {'should', 'to', 'have', 'has', 'must',
-        'be', 'And', 'when', 'but', 'it'}
+the(1).should.be(1)
+expect(1).to.be(1)
 ```
 
-these words does nothing but return the object it self.
-
-So, instead of writing `the(1).Not.a(str)`, you write `the(1).should.Not.be.a(str).but.be.a(int)`.
-
-Sometimes they make your assertions more readable.
-
-Feel free to add your words if you like.
+### assert `isinstance`
 ```python
-the.them.add("whatever")
+the(1).should.be.an(int)
+expect("1").to.be.a(str)
+```
+
+### assert `issubclass`
+```python
+the(int).should.inherit(object)
+expect(int).to.inherit(object)
+```
+
+### assert `in`
+```python
+the(1).should.be.within(range(1,3))
+expect(1).to.be.within(range(1,3))
+```
+
+### assert `len`
+```python
+the(range(1, 3)).should.have.length(3)
+expect(range(1, 3)).to.have.length(3)
+```
+
+### assert `regexp`
+```python
+the("abc").should.match("a")
+expect("abc").to.match("a")
+```
+
+### assert `dict.item`
+```python
+d = {a: 1, b: 2}
+the(d).should.have.items(a=1, b=2)
+expect(d).to.have.items(a=1, b=2)
+
+the(d).should.contain({"a": 1, "b": 2})
+expect(d).to.contain({"a": 1, "b": 2})
+```
+
+### assert `dict.key`
+```python
+d = {a: 1, b: 2}
+the(d).should.have.key("a")
+expect(d).to.have.keys("a", "b")
+```
+
+### assert `dict.value`
+```python
+d = {a: 1, b: 2}
+the(d).should.have.value(1)
+expect(d).to.have.values(1, 2)
+```
+
+### assert `property`
+```python
+class A(object):
+    def __init__(self):
+        self.x = 1
+
+    def getx(self):
+        return self.x
+
+expect(A()).to.have.property("x")
+expect(A()).to.have.property(x=1)
+```
+
+### assert `method`
+```python
+class A(object):
+    def __init__(self):
+        self.x = 1
+
+    def getx(self):
+        return self.x
+
+expect(A()).to.have.method("getx")
+the(A()).should.have.method("getx")
+```
+
+### assert `function`
+```python
+def div(a, b):
+    return a/b
+
+expect(div).when.apply(1,2).to.have.result(1/2)
+expect(div).when.apply(1,0).to.throw()
+```
+
+### assert `exception`
+```python
+with expect.exception():
+    assert 1 == 2
 ```
