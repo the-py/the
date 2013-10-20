@@ -40,7 +40,6 @@ class The(object):
         self.be = _TheBe(self)
         self.an = self.a = _TheA(self)
 
-
     def __getattr__(self, attr):
         if attr in The.them:
             return self
@@ -295,6 +294,8 @@ class The(object):
                 cls.use(*item)
             elif isinstance(item, dict):
                 _add_method(item)
+            elif isinstance(item, str):
+                cls.them.add(item)
             else:
                 _add_method({item.__name__: item})
         _add_method(kwargs)
