@@ -8,7 +8,10 @@ pip install the
 ```
 
 # API
-It provides one object called "the" with an alias "expect".
+It provides one object called `the` with an alias `expect`.
+```python
+from the import the, expect
+```
 
 ### Chains
 > do nothing but return itself.
@@ -18,7 +21,7 @@ It provides one object called "the" with an alias "expect".
 * to
 * when
 
-#### More chains?
+##### More chains?
 ```python
 the.use("mychain")
 ```
@@ -26,14 +29,14 @@ the.use("mychain")
 ### Matchers without arg
 > trigger a certain assertion. Take a look at the Usage and Example.
 
-* true
-* false
-* none
-* exist
-* ok
-* empty
+* `true`
+* `false`
+* `none`
+* `exist`
+* `ok`
+* `empty`
 
-#### More?
+##### More?
 > take a look at the-easytype lib.
 
 ```python
@@ -74,7 +77,7 @@ the(string).should.be.happy
 * `throw` (used to assert function throw exception using `apply` to apply args)
 * `exception` ( assert exception throw. *classmethod*)
 
-#### More?
+##### More?
 > take a look at the-fs lib.
 
 ```python
@@ -82,8 +85,8 @@ the(string).should.be.happy
 def firstname(self, name):
       fname = self.obj.split()[0]
       return self._check(fname == name,
-                                      "The firstname of {} is {}".format(self.obj, name),
-                                      "The firstname of {} is not {}".format(self.obj, name))
+                         "The firstname of {} is {}".format(self.obj, name),
+                         "The firstname of {} is not {}".format(self.obj, name))
 
 # add to `the`
 the.use(firname)
@@ -94,9 +97,9 @@ expect("Wenjun Yan").to.have.firstname("Wenjun")
 
 ### Negations
 
-* NOT
-* not_to
-* should_not
+* `NOT`
+* `not_to`
+* `should_not`
 
 
 # Usage and Examples
