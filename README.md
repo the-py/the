@@ -1,3 +1,99 @@
+# A python assertion module for better assertion.
+
+inspired by should.js and chai.js
+
+# install
+```shell
+pip install the
+```
+
+# API
+It provides one object called "the" with an alias "expect".
+
+### Chains
+> do nothing but return itself.
+* should
+* have
+* to
+* when
+
+#### More chains?
+```python
+the.use("mychain")
+```
+
+### Matchers without arg
+> trigger a certain assertion. Take a look at the Usage and Example.
+* true
+* false
+* none
+* exist
+* ok
+* empty
+
+#### More?
+> take a look at the-easytype lib.
+```python
+# define your matcher
+def happy(self):
+    return self._check(self.obj == "happy",
+                       self.obj + " is happy.",
+                       self.obj + " is not happy.")
+
+# add to `the`
+the.use(happy)
+
+# DONE!
+the(string).should.be.happy
+```
+
+### Matchers with args
+> trigger a certain assertion
+* `eq`, `equal`
+* `lt`, `below`
+* `gt`, `above`
+* `ne`
+* `le`
+* `ge`
+* `match`
+* `length`, `size`
+* `item`, `items`
+* `contain`
+* `key`, `keys`
+* `value`, `values`
+* `property`, `properties`
+* `include`
+* `within`
+* `inherit`
+* `method`
+* `result`(used to assert function return value using `apply` to apply args)
+* `throw` (used to assert function throw exception using `apply` to apply args)
+* `exception` ( assert exception throw. *classmethod*)
+
+#### More?
+> take a look at the-fs lib.
+```python
+# define your matcher
+def firstname(self, name):
+    fname = self.obj.split()[0]
+    return self._check(fname == name,
+                       "The firstname of {} is {}".format(self.obj, name),
+                       "The firstname of {} is not {}".format(self.obj, name))
+
+# add to `the`
+the.use(firname)
+
+# DONE!
+expect("Wenjun Yan").to.have.firstname("Wenjun")
+```
+
+### Negations
+* NOT
+* not_to
+* should_not
+
+
+# Usage and Examples
 ### assert `>`, `<`, `>=`, `<=`, `==`
 ```python
 expect(1) > 0
