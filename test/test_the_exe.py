@@ -2,7 +2,7 @@ import unittest
 from the import *
 
 
-class TestTheCoders(unittest.TestCase):
+class TestTheExe(unittest.TestCase):
     def setUp(self):
         self.eq = self.assertEqual
         self.neq = self.assertNotEqual

@@ -20,11 +20,6 @@ class TestTheMatchers(unittest.TestCase):
         with self.r(AssertionError):
             the(1).should.be.a(str)
 
-    def test_be(self):
-        self.true(the(1).be(1))
-        with self.r(AssertionError):
-            the(True).should.be(False)
-
     def test_within(self):
         self.true(the(1).within(range(1, 3)))
         with self.r(AssertionError):
@@ -52,8 +47,7 @@ class TestTheMatchers(unittest.TestCase):
 
     def test_item(self):
         d = {"a": 1, "b": 2, "c": 3}
-        the(d).item(a=1)
-        # self.true(the(d).item(a=1))
+        self.true(the(d).item(a=1))
         with self.r(AssertionError):
             the(d).have.item(a=2)
 

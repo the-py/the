@@ -48,9 +48,9 @@ class _TheBlock(object):
 
 
 class The(object):
-    them = {'should', 'to', 'have', 'when'}
+    this = {'should', 'to', 'have', 'when'}
 
-    coders = {'true', 'false', 'none', 'exist',
+    exe = {'true', 'false', 'none', 'exist',
               'ok', 'empty', 'NOT', 'not_to', 'should_not'}
 
     def __init__(self, obj):
@@ -61,9 +61,9 @@ class The(object):
         self.an = self.a = _TheA(self)
 
     def __getattr__(self, attr):
-        if attr in The.them:
+        if attr in The.this:
             return self
-        elif attr in The.coders:
+        elif attr in The.exe:
             self.__call_coder(attr)
             return self
         else:
@@ -117,16 +117,16 @@ class The(object):
     # -- coder method --
     #
     # the following method are matchers(except `should_not`) but you don't
-    # have to call them explicitly just write somthing like this will work:
+    # have to call this explicitly just write somthing like this will work:
     #    The(1).true
     #    The(1).NOT.empty
     #
-    # when you ref to this kind of attribute in the coders dict,
+    # when you ref to this kind of attribute in the exe dict,
     # the object will try to prepend a '_' to the name of the attr
     # and call that method in return.
     #
     # So as in the e.g. above,
-    # When you say `true`, it will first check if it is in `self.coders`,
+    # When you say `true`, it will first check if it is in `self.exe`,
     # then find a method named as '_true' and call it.
 
     def _should_not(self):
@@ -329,7 +329,7 @@ class The(object):
             elif isinstance(item, dict):
                 _add_method(item)
             elif isinstance(item, str):
-                cls.them.add(item)
+                cls.this.add(item)
             else:
                 _add_method({item.__name__: item})
         _add_method(kwargs)
@@ -343,7 +343,7 @@ the = expect = The
 def _add_method(methods):
     for name, method in methods.items():
         if not _have_args(method):
-            The.coders.add(name)
+            The.exe.add(name)
             name = "_" + name
         setattr(The, name, method)
 
