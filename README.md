@@ -9,6 +9,8 @@ pip install the
 
 # API
 It provides one object called `the` with an alias `expect`.
+(Take a look at the Usage and Example.)
+
 ```python
 from the import the, expect
 ```
@@ -27,7 +29,7 @@ the.use("mychain")
 ```
 
 ### Matchers without arg
-> trigger a certain assertion. Take a look at the Usage and Example.
+> trigger a certain assertion.
 
 * `true`
 * `false`
@@ -94,6 +96,15 @@ the.use(firname)
 # DONE!
 expect("Wenjun Yan").to.have.firstname("Wenjun")
 ```
+
+### Magic methods
+* `==`
+* `!=`
+* `>=`
+* `<=`
+* `>`
+* `<`
+* `1 in the(range(1, 3))`
 
 ### Negations
 
