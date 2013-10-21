@@ -12,6 +12,7 @@ It provides one object called "the" with an alias "expect".
 
 ### Chains
 > do nothing but return itself.
+
 * should
 * have
 * to
@@ -24,6 +25,7 @@ the.use("mychain")
 
 ### Matchers without arg
 > trigger a certain assertion. Take a look at the Usage and Example.
+
 * true
 * false
 * none
@@ -33,6 +35,7 @@ the.use("mychain")
 
 #### More?
 > take a look at the-easytype lib.
+
 ```python
 # define your matcher
 def happy(self):
@@ -49,6 +52,7 @@ the(string).should.be.happy
 
 ### Matchers with args
 > trigger a certain assertion
+
 * `eq`, `equal`
 * `lt`, `below`
 * `gt`, `above`
@@ -72,13 +76,14 @@ the(string).should.be.happy
 
 #### More?
 > take a look at the-fs lib.
+
 ```python
 # define your matcher
 def firstname(self, name):
-    fname = self.obj.split()[0]
-    return self._check(fname == name,
-                       "The firstname of {} is {}".format(self.obj, name),
-                       "The firstname of {} is not {}".format(self.obj, name))
+      fname = self.obj.split()[0]
+      return self._check(fname == name,
+                                      "The firstname of {} is {}".format(self.obj, name),
+                                      "The firstname of {} is not {}".format(self.obj, name))
 
 # add to `the`
 the.use(firname)
@@ -88,13 +93,16 @@ expect("Wenjun Yan").to.have.firstname("Wenjun")
 ```
 
 ### Negations
+
 * NOT
 * not_to
 * should_not
 
 
 # Usage and Examples
+
 ### assert `>`, `<`, `>=`, `<=`, `==`
+
 ```python
 expect(1) > 0
 expect(1).gt(0)
