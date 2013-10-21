@@ -11,7 +11,7 @@ class TestTheBlock(unittest.TestCase):
             assert False
 
     def test_block_without_arg_and_fail(self):
-        with self.r(Exception):
+        with self.r(AssertionError):
             with expect.exception():
                 pass
 
@@ -20,7 +20,7 @@ class TestTheBlock(unittest.TestCase):
             assert False, "username"
 
     def test_block_with_regex_and_fail(self):
-        with self.r(Exception):
+        with self.r(AssertionError):
             with expect.exception("user"):
                 assert False, "name"
 
@@ -29,7 +29,7 @@ class TestTheBlock(unittest.TestCase):
             assert False
 
     def test_block_with_type_and_fail(self):
-        with self.r(Exception):
+        with self.r(AssertionError):
             with expect.exception(None, ZeroDivisionError):
                 assert False
 
