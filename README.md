@@ -16,10 +16,10 @@ from the import the, expect
 ### Chains
 > do nothing but return itself.
 
-* should
-* have
-* to
-* when
+* `should`
+* `have`
+* `to`
+* `when`
 
 ##### More chains?
 ```python
