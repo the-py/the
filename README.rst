@@ -1,260 +1,382 @@
-The python test assertion module
-================================
+A python assertion module for better assertion.
+===============================================
 
-Inspired by should.js and rspec
+inspired by should.js and chai.js
 
-Install
+install
 =======
 
-.. code:: bash
+.. code:: shell
 
     pip install the
-
-Usage
-=====
-
-.. code:: python
-
-    from the import The
 
 API
 ===
 
-matcher methods
----------------
-
-test ``==``
-~~~~~~~~~~~
+It provides one object called ``the`` with an alias ``expect``. (Take a
+look at the Usage and Example.)
 
 .. code:: python
 
-    The(1).should.be.equal(1)
+    from the import the, expect
 
-test ``isinstance``
-~~~~~~~~~~~~~~~~~~~
+Chains
+~~~~~~
 
-.. code:: python
+    do nothing but return itself.
 
-    The(1).should.be.an(int)
-    The((1,2,3)).should.be.a(tuple)
+-  ``should``
+-  ``have``
+-  ``to``
+-  ``when``
+-  ``be``. Special. You can use it as a chain but it also plays as a
+   matcher.
+-  ``a``. Special. You can use it as a chain but it also plays as a
+   matcher.
 
-test ``is``
-~~~~~~~~~~~
-
-.. code:: python
-
-    The(None).Is(None)
-    The([1,2,3]).is_not([1,2,3])
-
-test ``>``
-~~~~~~~~~~
+More chains?
+''''''''''''
 
 .. code:: python
 
-    The(1).should.be.above(0)
+    the.use("mychain")
 
-test ``<``
-~~~~~~~~~~
+Matchers without arg
+~~~~~~~~~~~~~~~~~~~~
+
+    trigger a certain assertion.
+
+-  ``true``. assert True
+-  ``false``. assert False
+-  ``none``. assert None
+-  ``exist``. assert not None
+-  ``ok``. assert Truthy
+-  ``empty``. assert Falsy
+
+More?
+'''''
+
+    take a look at
+    `the-easytype <https://github.com/the-py/the-easytype>`__ lib.
 
 .. code:: python
 
-    The(0).should.be.below(1)
+    # define your matcher
+    def happy(self):
+        return self._check(self.obj == "happy",
+                           self.obj + " is happy.",
+                           self.obj + " is not happy.")
 
-test match string
+    # add to `the`
+    the.use(happy)
+
+    # DONE!
+    the(string).should.be.happy
+
+Matchers with args
+~~~~~~~~~~~~~~~~~~
+
+    trigger a certain assertion
+
+-  | ``eq(other)``, ``equal(other)``. assert equal(==)
+   | @param: other {mixed}
+
+-  | ``lt(other)``, ``below(other)``. assert less than(<)
+   | @param: other {mixed}
+
+-  | ``gt(other)``, ``above(other)``. assert greater than(<)
+   | @param: other {mixed}
+
+-  | ``ne(other)``. assert not equal(!=)
+   | @param: other {mixed}
+
+-  | ``le(other)``. assert less than or equal to (>=).
+   | @param: other {mixed}
+
+-  | ``ge(other)``. assert greater than(>=).
+   | @param: other {mixed}
+
+-  | ``match(regex)``. assert string match a regex.
+   | @param: regex {mixed}
+
+-  | ``length(n)``, ``size(n)``. assert length.
+   | @param: n {int}
+
+-  | ``item(**kwargs)``, ``items(**kwargs)``. assert dict have item(s).
+   | @params: \*\*kwargs
+
+-  | ``contain(other)``. assert a dict contains another dict.
+   | @param: other {dict}
+
+-  | ``key(*args)``, ``keys(*args)``. assert dict has key(s).
+   | @params: args
+
+-  | ``value(*args)``, ``values(*args)``. assert dict has value(s).
+   | @params: args
+
+-  | ``property(**kwargs)``, ``properties(**kwargs)``. assert object has
+   property/properties.
+   | @params: args
+
+-  | ``include(item)``. assert container include item (in).
+   | @param: item {mixed}
+
+-  | ``within(container)``. assert item in container (in).
+   | @param: container {mixed}
+
+-  | ``inherit(parent)``. assert subclass.
+   | @param: parent {class}
+
+-  | ``method(m)``. assert object has method.
+   | @param: m {str}
+
+-  | ``result(r)``. assert function return value. Using ``apply`` to
+   apply args
+   | @param: r {mixed}
+
+-  | ``throw(msg=None, ex=Exception)`` . assert function throw exception
+   using ``apply`` to apply args
+   | @param: msg {regex} optional
+   | @param: ex {exception} optional
+
+-  | ``be(other)``. assert ``is``. (It can also be used as a chain)
+   | @param: other {mixed}.
+
+-  | ``a(cls)`` . assert ``isinstance`` . (It can also be used as a
+   chain)
+   | @param: cls {class}
+
+-  | ``exception(msg=None, ex=Exception)`` assert exception throw
+   **classmethod**
+   | @param: msg {regex} optional
+   | @param: ex {exception} optional
+
+More?
+'''''
+
+    take a look at `the-fs <https://github.com/the-py/the-fs>`__ lib.
+
+.. code:: python
+
+    # define your matcher
+    def firstname(self, name):
+          fname = self.obj.split()[0]
+          return self._check(fname == name,
+                             "The firstname of {} is {}".format(self.obj, name),
+                             "The firstname of {} is not {}".format(self.obj, name))
+
+    # add to `the`
+    the.use(firname)
+
+    # DONE!
+    expect("Wenjun Yan").to.have.firstname("Wenjun")
+
+Magic methods
+~~~~~~~~~~~~~
+
+-  ``==``
+-  ``!=``
+-  ``>=``
+-  ``<=``
+-  ``>``
+-  ``<``
+-  ``in``. e.g. ``1  in the(range(1,3))``
+
+Negations
+~~~~~~~~~
+
+-  ``NOT``
+-  ``not_to``
+-  ``should_not``
+
+Plugin
+~~~~~~
+
+| ``use(*args, **kwags)``. use this to extend ``the`` functionality.
+**classmethod**
+| @param: \*args
+| @param: \*\*kwargs
+| ``args`` can be a string (which will become a new chain), method(new
+matcher), list of arg or a dict (in this case ``the`` will use the key
+as new matcher's name. Same as ``kwargs``.). ``args`` can even be a
+module if it provides a ``API`` variable containing all matchers and
+chains to export.
+
+Usage and Examples
+==================
+
+assert ``>``, ``<``, ``>=``, ``<=``, ``==``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    expect(1) > 0
+    expect(1).gt(0)
+    expect(1).above(0)
+
+    expect(1) >= 0
+    expect(1).ge(0)
+
+    expect(1) < 2
+    expect(1).lt(0)
+    expect(1).below(0)
+
+    expect(1) <= 2
+    expect(1).le(0)
+
+    expect(1) == 1
+    expect(1).eq(1)
+    expect(1).equal(1)
+
+assert ``True``, ``False``, ``None``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    the(True).should.be.true
+    expect(True).to.be.true
+
+    the(False).should.be.false
+    expect(False).to.be.false
+
+    the(None).should.be.none
+    expect(None).to.be.none
+
+assert ``truthy``, ``falsy``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    the(1).should.be.ok
+    expect(1).to.be.ok
+
+    the("").should.be.empty
+    expect("").to.be.empty
+
+assert ``is``
+~~~~~~~~~~~~~
+
+.. code:: python
+
+    the(1).should.be(1)
+    expect(1).to.be(1)
+
+assert ``isinstance``
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    the(1).should.be.an(int)
+    expect("1").to.be.a(str)
+
+assert ``issubclass``
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    the(int).should.inherit(object)
+    expect(int).to.inherit(object)
+
+assert ``in``
+~~~~~~~~~~~~~
+
+.. code:: python
+
+    the(1).should.be.within(range(1,3))
+    expect(1).to.be.within(range(1,3))
+
+assert ``len``
+~~~~~~~~~~~~~~
+
+.. code:: python
+
+    the(range(1, 3)).should.have.length(3)
+    expect(range(1, 3)).to.have.length(3)
+
+assert ``regexp``
 ~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
-    The('a small module for testing').should.match('module')
+    the("abc").should.match("a")
+    expect("abc").to.match("a")
 
-test ``len``
-~~~~~~~~~~~~
-
-.. code:: python
-
-    The([1,2,3]).should.have.length(3)
-    The([1,2,3]).should.have.size(3)
-
-test ``in``
-~~~~~~~~~~~
-
-.. code:: python
-
-    The(1).should.In([1,2,3])
-    The(1).should.within([1,2,3])
-
-test item ``in`` dict
-~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: python
-
-    The({"a": 1, "b": 2}).should.have.item("a", 1)
-
-test items ``in`` dict
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: python
-
-    The({"a": 1, "b": 2}).should.have.items(a=1, b=2)
-
-test key ``in`` dict
+assert ``dict.item``
 ~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
-    The({"a": 1, "b": 2}).should.have.key("a")
+    d = {a: 1, b: 2}
+    the(d).should.have.items(a=1, b=2)
+    expect(d).to.have.items(a=1, b=2)
 
-test keys ``in`` dict
+    the(d).should.contain({"a": 1, "b": 2})
+    expect(d).to.contain({"a": 1, "b": 2})
+
+assert ``dict.key``
+~~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    d = {a: 1, b: 2}
+    the(d).should.have.key("a")
+    expect(d).to.have.keys("a", "b")
+
+assert ``dict.value``
 ~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
-    The({"a": 1, "b": 2}).should.have.keys("a", "b")
+    d = {a: 1, b: 2}
+    the(d).should.have.value(1)
+    expect(d).to.have.values(1, 2)
 
-test value ``in`` dict
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: python
-
-    The({"a": 1, "b": 2}).should.have.value(1)
-
-test values ``in`` dict
-~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: python
-
-    The({"a": 1, "b": 2}).should.have.values(1, 2)
-
-test object property
-~~~~~~~~~~~~~~~~~~~~
+assert ``property``
+~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
     class A(object):
         def __init__(self):
-            self.message = 'hello world'
+            self.x = 1
 
-    The(A()).should.have.property('message')
-    The(A()).should.have.property('message', 'hello world')
-    The(A()).should.have.attr('message')
-    The(A()).should.have.attribute('message')
+        def getx(self):
+            return self.x
 
-test object method
-~~~~~~~~~~~~~~~~~~
+    expect(A()).to.have.property("x")
+    expect(A()).to.have.property(x=1)
 
-.. code:: python
-
-    The("hello").should.have.method("strip")
-    The("hello").should.respond_to("strip")
-
-test include
-~~~~~~~~~~~~
+assert ``method``
+~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
-    The([1,2,3]).should.include(1)
-    The([1,2,3]).should.includes(1)
-    The([1,2,3]).should.contain(1)
-    The([1,2,3]).should.contains(1)
+    class A(object):
+        def __init__(self):
+            self.x = 1
 
-test function
-~~~~~~~~~~~~~
+        def getx(self):
+            return self.x
 
-.. code:: python
+    expect(A()).to.have.method("getx")
+    the(A()).should.have.method("getx")
 
-    def fib(x):
-        memo = {}
-        def _fib():
-            if x in (0, 1): return 1
-            if x not in memo: memo[x] = fib(x-2) + fib(x-1)
-            return memo[x]
-        return _fib()
-
-    The(fib).when.apply(1).should.Return(1)
-
-    The(fib).when.apply(1,2,3,4).should.throw()
-
-matcher property
-----------------
-
-These property will trigger the corresponding protected matcher methods,
-which are not being called explicitly.
-
-All the keywords
-``python coders = {'nt', 'true', 'false', 'none', 'exist',            'ok', 'empty', 'Not', 'yes', 'exists',            'truthy', 'falsy', 'no'}``
-
-test ``not``
-~~~~~~~~~~~~
+assert ``function``
+~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
-    The(1).should.Not.be.a(str)
-    The([1,2,3]).should.nt.be.a(str)
+    def div(a, b):
+        return a/b
 
-test ``true``
-~~~~~~~~~~~~~
+    expect(div).when.apply(1,2).to.have.result(1/2)
+    expect(div).when.apply(1,0).to.throw()
 
-.. code:: python
-
-    The(True).should.be.true
-
-test ``false``
-~~~~~~~~~~~~~~
+assert ``exception``
+~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
-    The(False).should.be.false
+    with expect.exception():
+        assert 1 == 2
 
-test ``none``
-~~~~~~~~~~~~~
-
-.. code:: python
-
-    The(None).should.be.none
-
-test ``not none``\ (exist)
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: python
-
-    The(1).should.exist
-    The(1).exists
-    The(1).should.Not.be.none
-
-test ``falsy``\ ('', [], (), {}, False, None, 0)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: python
-
-    The([]).should.be.falsy
-    The('').should.be.empty
-    The([]).should.be.empty
-    The([]).should.be.no
-
-test ``truthy``
-~~~~~~~~~~~~~~~
-
-.. code:: python
-
-    The(1).should.be.truthy
-    The(1).should.be.ok
-    The(1).should.be.yes
-    The(1).should.Not.be.empty
-
-Other buzzwords
----------------
-
-.. code:: python
-
-    them = {'should', 'to', 'have', 'has', 'must',
-            'be', 'And', 'when', 'but', 'it'}
-
-These words does nothing but return the object it self.
-
-So, instead of writing ``The(1).Not.a(str)``, you write
-``The(1).should.Not.be.a(str).but.be.a(int)``.
-
-Sometimes they make your assertions more readable.
-
-Feel free to add your words if you like.
-``python The.them.add("whatever")``
