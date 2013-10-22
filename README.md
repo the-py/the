@@ -22,6 +22,8 @@ from the import the, expect
 * `have`
 * `to`
 * `when`
+* `be`. Special. You can use it as a chain but it also plays as a matcher.
+* `a`. Special. You can use it as a chain but it also plays as a matcher.
 
 ##### More chains?
 ```python
@@ -116,12 +118,18 @@ the(string).should.be.happy
 @param: msg {regex} optional  
 @param: ex {exception} optional
 
+* `be(other)`. assert `is`. (It can also be used as a chain)  
+@param: other {mixed}.
+
+* `a(cls)` . assert `isinstance` . (It can also be used as a chain)
+@param: cls {class}
+
 * `exception(msg=None, ex=Exception)` assert exception throw **classmethod**  
 @param: msg {regex} optional  
 @param: ex {exception} optional
 
 ##### More?
-> take a look at the-fs lib.
+> take a look at [the-fs](https://github.com/the-py/the-fs) lib.
 
 ```python
 # define your matcher
@@ -145,7 +153,7 @@ expect("Wenjun Yan").to.have.firstname("Wenjun")
 * `<=`
 * `>`
 * `<`
-* `1 in the(range(1, 3))`
+* `in`.  e.g. `1  in the(range(1,3))`
 
 ### Negations
 
