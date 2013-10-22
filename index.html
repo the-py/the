@@ -1,0 +1,382 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>The by the-py</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/the-py/the">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/the-py/the/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/the-py/the/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>The</h1>
+          <p>chai.js/should.js like python lib.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/the-py">the-py</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a name="a-python-assertion-module-for-better-assertion" class="anchor" href="#a-python-assertion-module-for-better-assertion"><span class="octicon octicon-link"></span></a>A python assertion module for better assertion.</h1>
+
+<p>inspired by should.js and chai.js</p>
+
+<h1>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>install</h1>
+
+<pre lang="shell"><code>pip install the
+</code></pre>
+
+<h1>
+<a name="api" class="anchor" href="#api"><span class="octicon octicon-link"></span></a>API</h1>
+
+<p>It provides one object called <code>the</code> with an alias <code>expect</code>.
+(Take a look at the Usage and Example.)</p>
+
+<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">the</span> <span class="kn">import</span> <span class="n">the</span><span class="p">,</span> <span class="n">expect</span>
+</pre></div>
+
+<h3>
+<a name="chains" class="anchor" href="#chains"><span class="octicon octicon-link"></span></a>Chains</h3>
+
+<blockquote>
+<p>do nothing but return itself.</p>
+</blockquote>
+
+<ul>
+<li><code>should</code></li>
+<li><code>have</code></li>
+<li><code>to</code></li>
+<li><code>when</code></li>
+</ul><h5>
+<a name="more-chains" class="anchor" href="#more-chains"><span class="octicon octicon-link"></span></a>More chains?</h5>
+
+<div class="highlight highlight-python"><pre><span class="n">the</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">"mychain"</span><span class="p">)</span>
+</pre></div>
+
+<h3>
+<a name="matchers-without-arg" class="anchor" href="#matchers-without-arg"><span class="octicon octicon-link"></span></a>Matchers without arg</h3>
+
+<blockquote>
+<p>trigger a certain assertion.</p>
+</blockquote>
+
+<ul>
+<li><code>true</code></li>
+<li><code>false</code></li>
+<li><code>none</code></li>
+<li><code>exist</code></li>
+<li><code>ok</code></li>
+<li><code>empty</code></li>
+</ul><h5>
+<a name="more" class="anchor" href="#more"><span class="octicon octicon-link"></span></a>More?</h5>
+
+<blockquote>
+<p>take a look at the-easytype lib.</p>
+</blockquote>
+
+<div class="highlight highlight-python"><pre><span class="c"># define your matcher</span>
+<span class="k">def</span> <span class="nf">happy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">==</span> <span class="s">"happy"</span><span class="p">,</span>
+                       <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">+</span> <span class="s">" is happy."</span><span class="p">,</span>
+                       <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">+</span> <span class="s">" is not happy."</span><span class="p">)</span>
+
+<span class="c"># add to `the`</span>
+<span class="n">the</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="n">happy</span><span class="p">)</span>
+
+<span class="c"># DONE!</span>
+<span class="n">the</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">be</span><span class="o">.</span><span class="n">happy</span>
+</pre></div>
+
+<h3>
+<a name="matchers-with-args" class="anchor" href="#matchers-with-args"><span class="octicon octicon-link"></span></a>Matchers with args</h3>
+
+<blockquote>
+<p>trigger a certain assertion</p>
+</blockquote>
+
+<ul>
+<li>
+<code>eq</code>, <code>equal</code>
+</li>
+<li>
+<code>lt</code>, <code>below</code>
+</li>
+<li>
+<code>gt</code>, <code>above</code>
+</li>
+<li><code>ne</code></li>
+<li><code>le</code></li>
+<li><code>ge</code></li>
+<li><code>match</code></li>
+<li>
+<code>length</code>, <code>size</code>
+</li>
+<li>
+<code>item</code>, <code>items</code>
+</li>
+<li><code>contain</code></li>
+<li>
+<code>key</code>, <code>keys</code>
+</li>
+<li>
+<code>value</code>, <code>values</code>
+</li>
+<li>
+<code>property</code>, <code>properties</code>
+</li>
+<li><code>include</code></li>
+<li><code>within</code></li>
+<li><code>inherit</code></li>
+<li><code>method</code></li>
+<li>
+<code>result</code>(used to assert function return value using <code>apply</code> to apply args)</li>
+<li>
+<code>throw</code> (used to assert function throw exception using <code>apply</code> to apply args)</li>
+<li>
+<code>exception</code> ( assert exception throw. <em>classmethod</em>)</li>
+</ul><h5>
+<a name="more-1" class="anchor" href="#more-1"><span class="octicon octicon-link"></span></a>More?</h5>
+
+<blockquote>
+<p>take a look at the-fs lib.</p>
+</blockquote>
+
+<div class="highlight highlight-python"><pre><span class="c"># define your matcher</span>
+<span class="k">def</span> <span class="nf">firstname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+      <span class="n">fname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check</span><span class="p">(</span><span class="n">fname</span> <span class="o">==</span> <span class="n">name</span><span class="p">,</span>
+                         <span class="s">"The firstname of {} is {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span>
+                         <span class="s">"The firstname of {} is not {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+
+<span class="c"># add to `the`</span>
+<span class="n">the</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="n">firname</span><span class="p">)</span>
+
+<span class="c"># DONE!</span>
+<span class="n">expect</span><span class="p">(</span><span class="s">"Wenjun Yan"</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">firstname</span><span class="p">(</span><span class="s">"Wenjun"</span><span class="p">)</span>
+</pre></div>
+
+<h3>
+<a name="magic-methods" class="anchor" href="#magic-methods"><span class="octicon octicon-link"></span></a>Magic methods</h3>
+
+<ul>
+<li><code>==</code></li>
+<li><code>!=</code></li>
+<li><code>&gt;=</code></li>
+<li><code>&lt;=</code></li>
+<li><code>&gt;</code></li>
+<li><code>&lt;</code></li>
+<li><code>1 in the(range(1, 3))</code></li>
+</ul><h3>
+<a name="negations" class="anchor" href="#negations"><span class="octicon octicon-link"></span></a>Negations</h3>
+
+<ul>
+<li><code>NOT</code></li>
+<li><code>not_to</code></li>
+<li><code>should_not</code></li>
+</ul><h1>
+<a name="usage-and-examples" class="anchor" href="#usage-and-examples"><span class="octicon octicon-link"></span></a>Usage and Examples</h1>
+
+<h3>
+<a name="assert-----" class="anchor" href="#assert-----"><span class="octicon octicon-link"></span></a>assert <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>==</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">gt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">above</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+<span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">ge</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span>
+<span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">below</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">2</span>
+<span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">le</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+<h3>
+<a name="assert-true-false-none" class="anchor" href="#assert-true-false-none"><span class="octicon octicon-link"></span></a>assert <code>True</code>, <code>False</code>, <code>None</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="n">the</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">be</span><span class="o">.</span><span class="n">true</span>
+<span class="n">expect</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">be</span><span class="o">.</span><span class="n">true</span>
+
+<span class="n">the</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">be</span><span class="o">.</span><span class="n">false</span>
+<span class="n">expect</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">be</span><span class="o">.</span><span class="n">false</span>
+
+<span class="n">the</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">be</span><span class="o">.</span><span class="n">none</span>
+<span class="n">expect</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">be</span><span class="o">.</span><span class="n">none</span>
+</pre></div>
+
+<h3>
+<a name="assert-truthy-falsy" class="anchor" href="#assert-truthy-falsy"><span class="octicon octicon-link"></span></a>assert <code>truthy</code>, <code>falsy</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="n">the</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">be</span><span class="o">.</span><span class="n">ok</span>
+<span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">be</span><span class="o">.</span><span class="n">ok</span>
+
+<span class="n">the</span><span class="p">(</span><span class="s">""</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">be</span><span class="o">.</span><span class="n">empty</span>
+<span class="n">expect</span><span class="p">(</span><span class="s">""</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">be</span><span class="o">.</span><span class="n">empty</span>
+</pre></div>
+
+<h3>
+<a name="assert-is" class="anchor" href="#assert-is"><span class="octicon octicon-link"></span></a>assert <code>is</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="n">the</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">be</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">be</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+<h3>
+<a name="assert-isinstance" class="anchor" href="#assert-isinstance"><span class="octicon octicon-link"></span></a>assert <code>isinstance</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="n">the</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">be</span><span class="o">.</span><span class="n">an</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="s">"1"</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">be</span><span class="o">.</span><span class="n">a</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+
+<h3>
+<a name="assert-issubclass" class="anchor" href="#assert-issubclass"><span class="octicon octicon-link"></span></a>assert <code>issubclass</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="n">the</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">inherit</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">inherit</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+</pre></div>
+
+<h3>
+<a name="assert-in" class="anchor" href="#assert-in"><span class="octicon octicon-link"></span></a>assert <code>in</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="n">the</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">be</span><span class="o">.</span><span class="n">within</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">be</span><span class="o">.</span><span class="n">within</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+
+<h3>
+<a name="assert-len" class="anchor" href="#assert-len"><span class="octicon octicon-link"></span></a>assert <code>len</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="n">the</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">length</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">length</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+<h3>
+<a name="assert-regexp" class="anchor" href="#assert-regexp"><span class="octicon octicon-link"></span></a>assert <code>regexp</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="n">the</span><span class="p">(</span><span class="s">"abc"</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">"a"</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="s">"abc"</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">"a"</span><span class="p">)</span>
+</pre></div>
+
+<h3>
+<a name="assert-dictitem" class="anchor" href="#assert-dictitem"><span class="octicon octicon-link"></span></a>assert <code>dict.item</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="n">the</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">the</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">contain</span><span class="p">({</span><span class="s">"a"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">"b"</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">contain</span><span class="p">({</span><span class="s">"a"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">"b"</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+</pre></div>
+
+<h3>
+<a name="assert-dictkey" class="anchor" href="#assert-dictkey"><span class="octicon octicon-link"></span></a>assert <code>dict.key</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="n">the</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">key</span><span class="p">(</span><span class="s">"a"</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span><span class="s">"a"</span><span class="p">,</span> <span class="s">"b"</span><span class="p">)</span>
+</pre></div>
+
+<h3>
+<a name="assert-dictvalue" class="anchor" href="#assert-dictvalue"><span class="octicon octicon-link"></span></a>assert <code>dict.value</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="n">the</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+<h3>
+<a name="assert-property" class="anchor" href="#assert-property"><span class="octicon octicon-link"></span></a>assert <code>property</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">getx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+
+<span class="n">expect</span><span class="p">(</span><span class="n">A</span><span class="p">())</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">property</span><span class="p">(</span><span class="s">"x"</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">A</span><span class="p">())</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">property</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+<h3>
+<a name="assert-method" class="anchor" href="#assert-method"><span class="octicon octicon-link"></span></a>assert <code>method</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">getx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+
+<span class="n">expect</span><span class="p">(</span><span class="n">A</span><span class="p">())</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="s">"getx"</span><span class="p">)</span>
+<span class="n">the</span><span class="p">(</span><span class="n">A</span><span class="p">())</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="s">"getx"</span><span class="p">)</span>
+</pre></div>
+
+<h3>
+<a name="assert-function" class="anchor" href="#assert-function"><span class="octicon octicon-link"></span></a>assert <code>function</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="k">def</span> <span class="nf">div</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">/</span><span class="n">b</span>
+
+<span class="n">expect</span><span class="p">(</span><span class="n">div</span><span class="p">)</span><span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">div</span><span class="p">)</span><span class="o">.</span><span class="n">when</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">throw</span><span class="p">()</span>
+</pre></div>
+
+<h3>
+<a name="assert-exception" class="anchor" href="#assert-exception"><span class="octicon octicon-link"></span></a>assert <code>exception</code>
+</h3>
+
+<div class="highlight highlight-python"><pre><span class="k">with</span> <span class="n">expect</span><span class="o">.</span><span class="n">exception</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">2</span>
+</pre></div>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
