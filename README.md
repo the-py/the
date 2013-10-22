@@ -1,4 +1,4 @@
-# A python assertion module for better assertion.
+# python better assertion.
 
 inspired by should.js and chai.js
 
