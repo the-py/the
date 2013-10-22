@@ -4,40 +4,30 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>The by the-py</title>
+
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/the-py/the">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/the-py/the/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/the-py/the/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
-
     <div class="wrapper">
+      <header>
+        <h1>The</h1>
+        <p>chai.js/should.js like python lib.</p>
 
+        <p class="view"><a href="https://github.com/the-py/the">View the Project on GitHub <small>the-py/the</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/the-py/the/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/the-py/the/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/the-py/the">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
       <section>
-        <div id="title">
-          <h1>The</h1>
-          <p>chai.js/should.js like python lib.</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/the-py">the-py</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
-
         <h1>
 <a name="a-python-assertion-module-for-better-assertion" class="anchor" href="#a-python-assertion-module-for-better-assertion"><span class="octicon octicon-link"></span></a>A python assertion module for better assertion.</h1>
 
@@ -118,45 +108,48 @@
 </blockquote>
 
 <ul>
-<li>
-<code>eq</code>, <code>equal</code>
-</li>
-<li>
-<code>lt</code>, <code>below</code>
-</li>
-<li>
-<code>gt</code>, <code>above</code>
-</li>
-<li><code>ne</code></li>
-<li><code>le</code></li>
-<li><code>ge</code></li>
-<li><code>match</code></li>
-<li>
-<code>length</code>, <code>size</code>
-</li>
-<li>
-<code>item</code>, <code>items</code>
-</li>
-<li><code>contain</code></li>
-<li>
-<code>key</code>, <code>keys</code>
-</li>
-<li>
-<code>value</code>, <code>values</code>
-</li>
-<li>
-<code>property</code>, <code>properties</code>
-</li>
-<li><code>include</code></li>
-<li><code>within</code></li>
-<li><code>inherit</code></li>
-<li><code>method</code></li>
-<li>
-<code>result</code>(used to assert function return value using <code>apply</code> to apply args)</li>
-<li>
-<code>throw</code> (used to assert function throw exception using <code>apply</code> to apply args)</li>
-<li>
-<code>exception</code> ( assert exception throw. <em>classmethod</em>)</li>
+<li><p><code>eq(other)</code>, <code>equal(other)</code>.  assert equal(==)<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: other {mixed}</p></li>
+<li><p><code>lt(other)</code>, <code>below(other)</code>.  assert less than(&lt;)<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: other {mixed}</p></li>
+<li><p><code>gt(other)</code>, <code>above(other)</code>. assert greater than(&lt;)<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: other {mixed}</p></li>
+<li><p><code>ne(other)</code>. assert not equal(!=)<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: other {mixed}</p></li>
+<li><p><code>le(other)</code>. assert less than or equal to (&gt;=).<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: other {mixed}</p></li>
+<li><p><code>ge(other)</code>. assert greater than(&gt;=).<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: other {mixed}</p></li>
+<li><p><code>match(regex)</code>. assert string match a regex.<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: regex {mixed}</p></li>
+<li><p><code>length(n)</code>, <code>size(n)</code>. assert length.<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: n {int}</p></li>
+<li><p><code>item(**kwargs)</code>, <code>items(**kwargs)</code>. assert dict have item(s).<br>
+<a href="https://github.com/params" class="user-mention">@params</a>: **kwargs</p></li>
+<li><p><code>contain(other)</code>. assert a dict contains another dict.<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: other {dict}</p></li>
+<li><p><code>key(*args)</code>, <code>keys(*args)</code>. assert dict has key(s).<br>
+<a href="https://github.com/params" class="user-mention">@params</a>: args</p></li>
+<li><p><code>value(*args)</code>, <code>values(*args)</code>. assert dict has value(s).<br>
+<a href="https://github.com/params" class="user-mention">@params</a>: args</p></li>
+<li><p><code>property(**kwargs)</code>, <code>properties(**kwargs)</code>. assert object has property/properties.<br>
+<a href="https://github.com/params" class="user-mention">@params</a>: args</p></li>
+<li><p><code>include(item)</code>. assert container include item (in).<br>
+<a href="https://github.com/param" class="user-mention">@param</a>:  item {mixed}</p></li>
+<li><p><code>within(container)</code>. assert item in container (in).<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: container {mixed}</p></li>
+<li><p><code>inherit(parent)</code>. assert subclass.<br>
+<a href="https://github.com/param" class="user-mention">@param</a>:  parent {class}</p></li>
+<li><p><code>method(m)</code>. assert object has method.<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: m {str}</p></li>
+<li><p><code>result(r)</code>. assert function return value. Using <code>apply</code> to apply args<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: r {mixed}</p></li>
+<li><p><code>throw(msg=None, ex=Exception)</code> . assert function throw exception using <code>apply</code> to apply args<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: msg {regex} optional<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: ex {exception} optional</p></li>
+<li><p><code>exception(msg=None, ex=Exception)</code> assert exception throw <strong>classmethod</strong><br>
+<a href="https://github.com/param" class="user-mention">@param</a>: msg {regex} optional<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: ex {exception} optional</p></li>
 </ul><h5>
 <a name="more-1" class="anchor" href="#more-1"><span class="octicon octicon-link"></span></a>More?</h5>
 
@@ -374,9 +367,12 @@
     <span class="k">assert</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">2</span>
 </pre></div>
       </section>
-
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/the-py">the-py</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    <script src="javascripts/scale.fix.js"></script>
     
   </body>
 </html>
