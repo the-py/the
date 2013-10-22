@@ -1,5 +1,5 @@
-A python assertion module for better assertion.
-===============================================
+python better assertion.
+========================
 
 inspired by should.js and chai.js
 
@@ -174,13 +174,14 @@ More?
 Magic methods
 ~~~~~~~~~~~~~
 
--  ``==``
--  ``!=``
--  ``>=``
--  ``<=``
--  ``>``
--  ``<``
+-  ``==``. e.g. ``expect(1) == 1``
+-  ``!=``. e.g. ``expect(1) != 2``
+-  ``>=``. e.g. ``expect(1) >= 1``
+-  ``<=``. e.g. ``expect(2) <= 3``
+-  ``>``. e.g. ``expect(3) > 2``
+-  ``<``. e.g. ``expect(4) < 5``
 -  ``in``. e.g. ``1  in the(range(1,3))``
+-  ``[]`` . e.g. ``the(dictionary)["key"] == "value"``
 
 Negations
 ~~~~~~~~~
@@ -309,6 +310,7 @@ assert ``dict.item``
     d = {a: 1, b: 2}
     the(d).should.have.items(a=1, b=2)
     expect(d).to.have.items(a=1, b=2)
+    expect(d)["a"] == 1
 
     the(d).should.contain({"a": 1, "b": 2})
     expect(d).to.contain({"a": 1, "b": 2})
@@ -379,4 +381,12 @@ assert ``exception``
 
     with expect.exception():
         assert 1 == 2
+
+Plugin
+======
+
+-  `the-fs <https://github.com/the-py/the-fs>`__ Use ``os`` to assert
+   file system .
+-  `the-easytype <https://github.com/the-py/the-easytype>`__. Another
+   way to assert basic types.
 
