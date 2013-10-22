@@ -58,15 +58,33 @@ the(string).should.be.happy
 ### Matchers with args
 > trigger a certain assertion
 
-* `eq`, `equal`
-* `lt`, `below`
-* `gt`, `above`
-* `ne`
-* `le`
-* `ge`
-* `match`
-* `length`, `size`
+* `eq(other)`, `equal(other)`
+> @param: other {mixed}
+> assert equal(==)
+* `lt(other)`, `below(other)`
+> @param: other {mixed}
+> assert less than(<)
+* `gt(other)`, `above(other)`
+> @param: other {mixed}
+> assert greater than(<)
+* `ne(other)`
+> @param: other {mixed}
+> assert not equal(!=)
+* `le(other)`
+> @param: other {mixed}
+> assert less than
+* `ge(other)`
+> @param: other {mixed}
+> assert greater than
+* `match(regex)`
+> @param: regex {mixed}
+> assert string match a regex
+* `length(n)`, `size(n)`
+> @param: n {int}
+> assert length
 * `item`, `items`
+> @param: **kwargs
+> assert dict have item(s)
 * `contain`
 * `key`, `keys`
 * `value`, `values`
@@ -77,7 +95,7 @@ the(string).should.be.happy
 * `method`
 * `result`(used to assert function return value using `apply` to apply args)
 * `throw` (used to assert function throw exception using `apply` to apply args)
-* `exception` ( assert exception throw. *classmethod*)
+* `exception` ( assert exception throw. _classmethod_)
 
 ##### More?
 > take a look at the-fs lib.
