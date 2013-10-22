@@ -15,7 +15,7 @@ if __name__ == '__main__':
         author = "Yan Wenjun",
         author_email = "mylastnameisyan@gmail.com",
         license = 'MIT',
-        url = 'https://github.com/v2e4lisp/the',
+        url = 'http://the-py.github.io/the',
         py_modules = ["the"],
         classifiers = [
             'License :: OSI Approved :: MIT License',
