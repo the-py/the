@@ -46,10 +46,14 @@ class TestTheMagic(unittest.TestCase):
             1 in the(range(2, 10))
 
     def test_getitem(self):
-        d = {"a": 1, "b": 2, "c": 3}
-        self.true(the(d)["a"] == 1)
+        target = the({"a": 1, "b": 2, "c": 3})
+        self.true(target["a"] == 1)
         with self.r(AssertionError):
-            the(d)["a"] == 2
+            target["a"] == 2
+
+        self.true(target.NOT["x"])
+        with self.r(AssertionError):
+            target["x"]
 
 if __name__ == '__main__':
     unittest.main()
