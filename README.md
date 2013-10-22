@@ -113,11 +113,11 @@ the(string).should.be.happy
 @param: r {mixed}
 
 * `throw(msg=None, ex=Exception)` . assert function throw exception using `apply` to apply args  
-@param: msg {regex} optional
+@param: msg {regex} optional  
 @param: ex {exception} optional
 
 * `exception(msg=None, ex=Exception)` assert exception throw **classmethod**  
-@param: msg {regex} optional
+@param: msg {regex} optional  
 @param: ex {exception} optional
 
 ##### More?
