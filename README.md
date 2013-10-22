@@ -2,7 +2,7 @@
 
 inspired by should.js and chai.js
 
-[![Build Status](https://travis-ci.org/v2e4lisp/the.png)](https://travis-ci.org/v2e4lisp/the)
+[![Build Status](https://travis-ci.org/the-py/the.png)](https://travis-ci.org/the-py/the)
 tested on python2.7, 3.2, 3.3
 
 # install
