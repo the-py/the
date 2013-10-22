@@ -151,7 +151,7 @@ expect("Wenjun Yan").to.have.firstname("Wenjun")
 * `!=`. e.g. `expect(1) != 2`
 * `>=`. e.g. `expect(1) >= 1`
 * `<=`. e.g. `expect(2) <= 3`
-* `>`. e.g. `expect(3) > 2
+* `>`. e.g. `expect(3) > 2`
 * `<`. e.g. `expect(4) < 5`
 * `in`. e.g. `1  in the(range(1,3))`
 * `[]` . e.g. `the(dictionary)["key"] == "value"`
