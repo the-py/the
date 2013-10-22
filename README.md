@@ -33,15 +33,15 @@ the.use("mychain")
 ### Matchers without arg
 > trigger a certain assertion.
 
-* `true`
-* `false`
-* `none`
-* `exist`
-* `ok`
-* `empty`
+* `true`. assert True
+* `false`. assert False
+* `none`. assert None
+* `exist`. assert not None
+* `ok`. assert Truthy
+* `empty`. assert Falsy
 
 ##### More?
-> take a look at the-easytype lib.
+> take a look at [the-easytype](https://github.com/the-py/the-easytype) lib.
 
 ```python
 # define your matcher
@@ -121,7 +121,7 @@ the(string).should.be.happy
 * `be(other)`. assert `is`. (It can also be used as a chain)  
 @param: other {mixed}.
 
-* `a(cls)` . assert `isinstance` . (It can also be used as a chain)
+* `a(cls)` . assert `isinstance` . (It can also be used as a chain)  
 @param: cls {class}
 
 * `exception(msg=None, ex=Exception)` assert exception throw **classmethod**  
@@ -161,6 +161,11 @@ expect("Wenjun Yan").to.have.firstname("Wenjun")
 * `not_to`
 * `should_not`
 
+### Plugin
+`use(*args, **kwags)`. use this to extend `the` functionality. **classmethod**  
+@param: *args  
+@param: **kwargs  
+`args` can be a string (which will become a new chain), method(new matcher), list of arg or a dict (in this case `the` will use the key as new matcher's name. Same as `kwargs`.). `args` can even be a module if it provides a `API` variable containing all matchers and chains to export.
 
 # Usage and Examples
 
