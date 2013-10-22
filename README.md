@@ -59,11 +59,11 @@ the(string).should.be.happy
 > trigger a certain assertion
 
 * `eq(other)`, `equal(other)`
-> @param: other {mixed}
-> assert equal(==)
+@param: other {mixed}  
+assert equal(==)  
 * `lt(other)`, `below(other)`
-> @param: other {mixed}
-> assert less than(<)
+@param: other {mixed}  
+assert less than(<)
 * `gt(other)`, `above(other)`
 > @param: other {mixed}
 > assert greater than(<)
