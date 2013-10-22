@@ -1,6 +1,9 @@
 # python better assertion.
-[![Build Status](https://travis-ci.org/v2e4lisp/the.png)](https://travis-ci.org/v2e4lisp/the)
+
 inspired by should.js and chai.js
+
+[![Build Status](https://travis-ci.org/v2e4lisp/the.png)](https://travis-ci.org/v2e4lisp/the)
+tested on python2.7, 3.2, 3.3
 
 # install
 ```shell
