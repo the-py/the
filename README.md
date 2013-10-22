@@ -58,44 +58,67 @@ the(string).should.be.happy
 ### Matchers with args
 > trigger a certain assertion
 
-* `eq(other)`, `equal(other)`
-@param: other {mixed}  
-assert equal(==)  
-* `lt(other)`, `below(other)`
-@param: other {mixed}  
-assert less than(<)
-* `gt(other)`, `above(other)`
-> @param: other {mixed}
-> assert greater than(<)
-* `ne(other)`
-> @param: other {mixed}
-> assert not equal(!=)
-* `le(other)`
-> @param: other {mixed}
-> assert less than
-* `ge(other)`
-> @param: other {mixed}
-> assert greater than
-* `match(regex)`
-> @param: regex {mixed}
-> assert string match a regex
-* `length(n)`, `size(n)`
-> @param: n {int}
-> assert length
-* `item`, `items`
-> @param: **kwargs
-> assert dict have item(s)
-* `contain`
-* `key`, `keys`
-* `value`, `values`
-* `property`, `properties`
-* `include`
-* `within`
-* `inherit`
-* `method`
-* `result`(used to assert function return value using `apply` to apply args)
-* `throw` (used to assert function throw exception using `apply` to apply args)
-* `exception` ( assert exception throw. _classmethod_)
+* `eq(other)`, `equal(other)`.  assert equal(==)  
+@param: other {mixed}
+
+* `lt(other)`, `below(other)`.  assert less than(<)  
+@param: other {mixed}
+
+* `gt(other)`, `above(other)`. assert greater than(<)  
+@param: other {mixed}
+ 
+* `ne(other)`. assert not equal(!=)  
+@param: other {mixed}
+
+* `le(other)`. assert less than or equal to (>=).  
+@param: other {mixed}
+
+* `ge(other)`. assert greater than(>=).   
+@param: other {mixed}
+
+* `match(regex)`. assert string match a regex.  
+@param: regex {mixed}
+
+* `length(n)`, `size(n)`. assert length.  
+@param: n {int}
+
+* `item(**kwargs)`, `items(**kwargs)`. assert dict have item(s).  
+@params: **kwargs
+
+* `contain(other)`. assert a dict contains another dict.  
+@param: other {dict}
+
+* `key(*args)`, `keys(*args)`. assert dict has key(s).  
+@params: args
+
+* `value(*args)`, `values(*args)`. assert dict has value(s).  
+@params: args
+
+* `property(**kwargs)`, `properties(**kwargs)`. assert object has property/properties.  
+@params: args
+
+* `include(item)`. assert container include item (in).  
+@param:  item {mixed}
+
+* `within(container)`. assert item in container (in).   
+@param: container {mixed}
+
+* `inherit(parent)`. assert subclass.  
+@param:  parent {class}
+
+* `method(m)`. assert object has method.  
+@param: m {str}
+
+* `result(r)`. assert function return value. Using `apply` to apply args   
+@param: r {mixed}
+
+* `throw(msg=None, ex=Exception)` . assert function throw exception using `apply` to apply args  
+@param: msg {regex} optional
+@param: ex {exception} optional
+
+* `exception(msg=None, ex=Exception)` assert exception throw **classmethod**  
+@param: msg {regex} optional
+@param: ex {exception} optional
 
 ##### More?
 > take a look at the-fs lib.
