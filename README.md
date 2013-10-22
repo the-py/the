@@ -1,5 +1,5 @@
 # python better assertion.
-
+[![Build Status](https://travis-ci.org/v2e4lisp/the.png)](https://travis-ci.org/v2e4lisp/the)
 inspired by should.js and chai.js
 
 # install
@@ -60,72 +60,72 @@ the(string).should.be.happy
 ### Matchers with args
 > trigger a certain assertion
 
-* `eq(other)`, `equal(other)`.  assert equal(==)  
+* `eq(other)`, `equal(other)`.  assert equal(==)
 @param: other {mixed}
 
-* `lt(other)`, `below(other)`.  assert less than(<)  
+* `lt(other)`, `below(other)`.  assert less than(<)
 @param: other {mixed}
 
-* `gt(other)`, `above(other)`. assert greater than(<)  
-@param: other {mixed}
- 
-* `ne(other)`. assert not equal(!=)  
+* `gt(other)`, `above(other)`. assert greater than(<)
 @param: other {mixed}
 
-* `le(other)`. assert less than or equal to (>=).  
+* `ne(other)`. assert not equal(!=)
 @param: other {mixed}
 
-* `ge(other)`. assert greater than(>=).   
+* `le(other)`. assert less than or equal to (>=).
 @param: other {mixed}
 
-* `match(regex)`. assert string match a regex.  
+* `ge(other)`. assert greater than(>=).
+@param: other {mixed}
+
+* `match(regex)`. assert string match a regex.
 @param: regex {mixed}
 
-* `length(n)`, `size(n)`. assert length.  
+* `length(n)`, `size(n)`. assert length.
 @param: n {int}
 
-* `item(**kwargs)`, `items(**kwargs)`. assert dict have item(s).  
+* `item(**kwargs)`, `items(**kwargs)`. assert dict have item(s).
 @params: **kwargs
 
-* `contain(other)`. assert a dict contains another dict.  
+* `contain(other)`. assert a dict contains another dict.
 @param: other {dict}
 
-* `key(*args)`, `keys(*args)`. assert dict has key(s).  
+* `key(*args)`, `keys(*args)`. assert dict has key(s).
 @params: args
 
-* `value(*args)`, `values(*args)`. assert dict has value(s).  
+* `value(*args)`, `values(*args)`. assert dict has value(s).
 @params: args
 
-* `property(**kwargs)`, `properties(**kwargs)`. assert object has property/properties.  
+* `property(**kwargs)`, `properties(**kwargs)`. assert object has property/properties.
 @params: args
 
-* `include(item)`. assert container include item (in).  
+* `include(item)`. assert container include item (in).
 @param:  item {mixed}
 
-* `within(container)`. assert item in container (in).   
+* `within(container)`. assert item in container (in).
 @param: container {mixed}
 
-* `inherit(parent)`. assert subclass.  
+* `inherit(parent)`. assert subclass.
 @param:  parent {class}
 
-* `method(m)`. assert object has method.  
+* `method(m)`. assert object has method.
 @param: m {str}
 
-* `result(r)`. assert function return value. Using `apply` to apply args   
+* `result(r)`. assert function return value. Using `apply` to apply args
 @param: r {mixed}
 
-* `throw(msg=None, ex=Exception)` . assert function throw exception using `apply` to apply args  
-@param: msg {regex} optional  
+* `throw(msg=None, ex=Exception)` . assert function throw exception using `apply` to apply args
+@param: msg {regex} optional
 @param: ex {exception} optional
 
-* `be(other)`. assert `is`. (It can also be used as a chain)  
+* `be(other)`. assert `is`. (It can also be used as a chain)
 @param: other {mixed}.
 
-* `a(cls)` . assert `isinstance` . (It can also be used as a chain)  
+* `a(cls)` . assert `isinstance` . (It can also be used as a chain)
 @param: cls {class}
 
-* `exception(msg=None, ex=Exception)` assert exception throw **classmethod**  
-@param: msg {regex} optional  
+* `exception(msg=None, ex=Exception)` assert exception throw **classmethod**
+@param: msg {regex} optional
 @param: ex {exception} optional
 
 ##### More?
@@ -163,9 +163,9 @@ expect("Wenjun Yan").to.have.firstname("Wenjun")
 * `should_not`
 
 ### Plugin
-`use(*args, **kwags)`. use this to extend `the` functionality. **classmethod**  
-@param: *args  
-@param: **kwargs  
+`use(*args, **kwags)`. use this to extend `the` functionality. **classmethod**
+@param: *args
+@param: **kwargs
 `args` can be a string (which will become a new chain), method(new matcher), list of arg or a dict (in this case `the` will use the key as new matcher's name. Same as `kwargs`.). `args` can even be a module if it provides a `API` variable containing all matchers and chains to export.
 
 # Usage and Examples
