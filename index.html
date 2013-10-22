@@ -3,36 +3,51 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <meta name="viewport" content="width=640" />
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
     <title>The by the-py</title>
   </head>
 
   <body>
-    <div id="container">
-      <div class="inner">
+    <a id="forkme_banner" href="https://github.com/the-py/the">View on GitHub</a>
+    <div class="shell">
 
-        <header>
-          <h1>The</h1>
-          <h2>chai.js/should.js like python lib.</h2>
-        </header>
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>The</h1>
+            <h2>chai.js/should.js like python lib.</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/the-py/the/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/the-py/the/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/the-py/the" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/the-py/the/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/the-py/the/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
 
-        <hr>
 
-        <section id="main_content">
-          <h1>
-<a name="a-python-assertion-module-for-better-assertion" class="anchor" href="#a-python-assertion-module-for-better-assertion"><span class="octicon octicon-link"></span></a>A python assertion module for better assertion.</h1>
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
+        <h1>
+<a name="python-better-assertion" class="anchor" href="#python-better-assertion"><span class="octicon octicon-link"></span></a>python better assertion.</h1>
 
 <p>inspired by should.js and chai.js</p>
 
@@ -63,6 +78,10 @@
 <li><code>have</code></li>
 <li><code>to</code></li>
 <li><code>when</code></li>
+<li>
+<code>be</code>. Special. You can use it as a chain but it also plays as a matcher.</li>
+<li>
+<code>a</code>. Special. You can use it as a chain but it also plays as a matcher.</li>
 </ul><h5>
 <a name="more-chains" class="anchor" href="#more-chains"><span class="octicon octicon-link"></span></a>More chains?</h5>
 
@@ -77,17 +96,23 @@
 </blockquote>
 
 <ul>
-<li><code>true</code></li>
-<li><code>false</code></li>
-<li><code>none</code></li>
-<li><code>exist</code></li>
-<li><code>ok</code></li>
-<li><code>empty</code></li>
+<li>
+<code>true</code>. assert True</li>
+<li>
+<code>false</code>. assert False</li>
+<li>
+<code>none</code>. assert None</li>
+<li>
+<code>exist</code>. assert not None</li>
+<li>
+<code>ok</code>. assert Truthy</li>
+<li>
+<code>empty</code>. assert Falsy</li>
 </ul><h5>
 <a name="more" class="anchor" href="#more"><span class="octicon octicon-link"></span></a>More?</h5>
 
 <blockquote>
-<p>take a look at the-easytype lib.</p>
+<p>take a look at <a href="https://github.com/the-py/the-easytype">the-easytype</a> lib.</p>
 </blockquote>
 
 <div class="highlight highlight-python"><pre><span class="c"># define your matcher</span>
@@ -150,6 +175,10 @@
 <li><p><code>throw(msg=None, ex=Exception)</code> . assert function throw exception using <code>apply</code> to apply args<br>
 <a href="https://github.com/param" class="user-mention">@param</a>: msg {regex} optional<br>
 <a href="https://github.com/param" class="user-mention">@param</a>: ex {exception} optional</p></li>
+<li><p><code>be(other)</code>. assert <code>is</code>. (It can also be used as a chain)<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: other {mixed}.</p></li>
+<li><p><code>a(cls)</code> . assert <code>isinstance</code> . (It can also be used as a chain)<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: cls {class}</p></li>
 <li><p><code>exception(msg=None, ex=Exception)</code> assert exception throw <strong>classmethod</strong><br>
 <a href="https://github.com/param" class="user-mention">@param</a>: msg {regex} optional<br>
 <a href="https://github.com/param" class="user-mention">@param</a>: ex {exception} optional</p></li>
@@ -157,7 +186,7 @@
 <a name="more-1" class="anchor" href="#more-1"><span class="octicon octicon-link"></span></a>More?</h5>
 
 <blockquote>
-<p>take a look at the-fs lib.</p>
+<p>take a look at <a href="https://github.com/the-py/the-fs">the-fs</a> lib.</p>
 </blockquote>
 
 <div class="highlight highlight-python"><pre><span class="c"># define your matcher</span>
@@ -178,13 +207,30 @@
 <a name="magic-methods" class="anchor" href="#magic-methods"><span class="octicon octicon-link"></span></a>Magic methods</h3>
 
 <ul>
-<li><code>==</code></li>
-<li><code>!=</code></li>
-<li><code>&gt;=</code></li>
-<li><code>&lt;=</code></li>
-<li><code>&gt;</code></li>
-<li><code>&lt;</code></li>
-<li><code>1 in the(range(1, 3))</code></li>
+<li>
+<code>==</code>. e.g. <code>expect(1) == 1</code>
+</li>
+<li>
+<code>!=</code>. e.g. <code>expect(1) != 2</code>
+</li>
+<li>
+<code>&gt;=</code>. e.g. <code>expect(1) &gt;= 1</code>
+</li>
+<li>
+<code>&lt;=</code>. e.g. <code>expect(2) &lt;= 3</code>
+</li>
+<li>
+<code>&gt;</code>. e.g. <code>expect(3) &gt; 2</code>
+</li>
+<li>
+<code>&lt;</code>. e.g. <code>expect(4) &lt; 5</code>
+</li>
+<li>
+<code>in</code>. e.g. <code>1  in the(range(1,3))</code>
+</li>
+<li>
+<code>[]</code> . e.g. <code>the(dictionary)["key"] == "value"</code>
+</li>
 </ul><h3>
 <a name="negations" class="anchor" href="#negations"><span class="octicon octicon-link"></span></a>Negations</h3>
 
@@ -192,7 +238,14 @@
 <li><code>NOT</code></li>
 <li><code>not_to</code></li>
 <li><code>should_not</code></li>
-</ul><h1>
+</ul><h3>
+<a name="plugin" class="anchor" href="#plugin"><span class="octicon octicon-link"></span></a>Plugin</h3>
+
+<p><code>use(*args, **kwags)</code>. use this to extend <code>the</code> functionality. <strong>classmethod</strong><br>
+<a href="https://github.com/param" class="user-mention">@param</a>: <em>args<br>
+<a href="https://github.com/param" class="user-mention">@param</a>: *</em>kwargs<br><code>args</code> can be a string (which will become a new chain), method(new matcher), list of arg or a dict (in this case <code>the</code> will use the key as new matcher's name. Same as <code>kwargs</code>.). <code>args</code> can even be a module if it provides a <code>API</code> variable containing all matchers and chains to export.</p>
+
+<h1>
 <a name="usage-and-examples" class="anchor" href="#usage-and-examples"><span class="octicon octicon-link"></span></a>Usage and Examples</h1>
 
 <h3>
@@ -298,6 +351,7 @@
 <div class="highlight highlight-python"><pre><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
 <span class="n">the</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">expect</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">have</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="s">"a"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
 
 <span class="n">the</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">contain</span><span class="p">({</span><span class="s">"a"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">"b"</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
 <span class="n">expect</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">contain</span><span class="p">({</span><span class="s">"a"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">"b"</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
@@ -369,14 +423,23 @@
 <div class="highlight highlight-python"><pre><span class="k">with</span> <span class="n">expect</span><span class="o">.</span><span class="n">exception</span><span class="p">():</span>
     <span class="k">assert</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">2</span>
 </pre></div>
-        </section>
+      </section>
 
-        <footer>
-          The is maintained by <a href="https://github.com/the-py">the-py</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/the-py">the-py</a> can be found on <a href="https://github.com/the-py/the">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
 
-                  <script type="text/javascript">
+    </div>
+
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -387,7 +450,5 @@
             } catch(err) {}
           </script>
 
-      </div>
-    </div>
   </body>
 </html>
