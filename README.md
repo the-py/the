@@ -314,3 +314,7 @@ expect(div).when.apply(1,0).to.throw()
 with expect.exception():
     assert 1 == 2
 ```
+
+# Plugin
+* [the-fs](https://github.com/the-py/the-fs) Use `os` to assert file system .
+* [the-easytype](https://github.com/the-py/the-easytype). Another way to assert basic types.
