@@ -101,7 +101,10 @@ class The(object):
         return True
 
     def __getitem__(self, key):
-        return The(self.obj[key])
+        self.key(key)
+        if key in self.obj:
+            return The(self.obj[key])
+        return self
 
     def _check(self, stmt, msg='', negmsg=''):
         if self.neg:
