@@ -3,6 +3,10 @@ python better assertion.
 
 inspired by should.js and chai.js
 
+http://the-py.github.io/the/
+
+|Build Status| tested on python2.7, 3.2, 3.3
+
 install
 =======
 
@@ -78,78 +82,67 @@ Matchers with args
 
     trigger a certain assertion
 
--  | ``eq(other)``, ``equal(other)``. assert equal(==)
-   | @param: other {mixed}
+-  ``eq(other)``, ``equal(other)``. assert equal(==) @param: other
+   {mixed}
 
--  | ``lt(other)``, ``below(other)``. assert less than(<)
-   | @param: other {mixed}
+-  ``lt(other)``, ``below(other)``. assert less than(<) @param: other
+   {mixed}
 
--  | ``gt(other)``, ``above(other)``. assert greater than(<)
-   | @param: other {mixed}
+-  ``gt(other)``, ``above(other)``. assert greater than(<) @param: other
+   {mixed}
 
--  | ``ne(other)``. assert not equal(!=)
-   | @param: other {mixed}
+-  ``ne(other)``. assert not equal(!=) @param: other {mixed}
 
--  | ``le(other)``. assert less than or equal to (>=).
-   | @param: other {mixed}
+-  ``le(other)``. assert less than or equal to (>=). @param: other
+   {mixed}
 
--  | ``ge(other)``. assert greater than(>=).
-   | @param: other {mixed}
+-  ``ge(other)``. assert greater than(>=). @param: other {mixed}
 
--  | ``match(regex)``. assert string match a regex.
-   | @param: regex {mixed}
+-  ``match(regex)``. assert string match a regex. @param: regex {mixed}
 
--  | ``length(n)``, ``size(n)``. assert length.
-   | @param: n {int}
+-  ``length(n)``, ``size(n)``. assert length. @param: n {int}
 
--  | ``item(**kwargs)``, ``items(**kwargs)``. assert dict have item(s).
-   | @params: \*\*kwargs
+-  ``item(**kwargs)``, ``items(**kwargs)``. assert dict have item(s).
+   @params: \*\*kwargs
 
--  | ``contain(other)``. assert a dict contains another dict.
-   | @param: other {dict}
+-  ``contain(other)``. assert a dict contains another dict. @param:
+   other {dict}
 
--  | ``key(*args)``, ``keys(*args)``. assert dict has key(s).
-   | @params: args
+-  ``key(*args)``, ``keys(*args)``. assert dict has key(s). @params:
+   args
 
--  | ``value(*args)``, ``values(*args)``. assert dict has value(s).
-   | @params: args
+-  ``value(*args)``, ``values(*args)``. assert dict has value(s).
+   @params: args
 
--  | ``property(**kwargs)``, ``properties(**kwargs)``. assert object has
-   property/properties.
-   | @params: args
+-  ``property(**kwargs)``, ``properties(**kwargs)``. assert object has
+   property/properties. @params: args
 
--  | ``include(item)``. assert container include item (in).
-   | @param: item {mixed}
+-  ``include(item)``. assert container include item (in). @param: item
+   {mixed}
 
--  | ``within(container)``. assert item in container (in).
-   | @param: container {mixed}
+-  ``within(container)``. assert item in container (in). @param:
+   container {mixed}
 
--  | ``inherit(parent)``. assert subclass.
-   | @param: parent {class}
+-  ``inherit(parent)``. assert subclass. @param: parent {class}
 
--  | ``method(m)``. assert object has method.
-   | @param: m {str}
+-  ``method(m)``. assert object has method. @param: m {str}
 
--  | ``result(r)``. assert function return value. Using ``apply`` to
-   apply args
-   | @param: r {mixed}
+-  ``result(r)``. assert function return value. Using ``apply`` to apply
+   args @param: r {mixed}
 
--  | ``throw(msg=None, ex=Exception)`` . assert function throw exception
-   using ``apply`` to apply args
-   | @param: msg {regex} optional
-   | @param: ex {exception} optional
+-  ``throw(msg=None, ex=Exception)`` . assert function throw exception
+   using ``apply`` to apply args @param: msg {regex} optional @param: ex
+   {exception} optional
 
--  | ``be(other)``. assert ``is``. (It can also be used as a chain)
-   | @param: other {mixed}.
+-  ``be(other)``. assert ``is``. (It can also be used as a chain)
+   @param: other {mixed}.
 
--  | ``a(cls)`` . assert ``isinstance`` . (It can also be used as a
-   chain)
-   | @param: cls {class}
+-  ``a(cls)`` . assert ``isinstance`` . (It can also be used as a chain)
+   @param: cls {class}
 
--  | ``exception(msg=None, ex=Exception)`` assert exception throw
-   **classmethod**
-   | @param: msg {regex} optional
-   | @param: ex {exception} optional
+-  ``exception(msg=None, ex=Exception)`` assert exception throw
+   **classmethod** @param: msg {regex} optional @param: ex {exception}
+   optional
 
 More?
 '''''
@@ -166,7 +159,7 @@ More?
                              "The firstname of {} is not {}".format(self.obj, name))
 
     # add to `the`
-    the.use(firname)
+    the.use(firstname)
 
     # DONE!
     expect("Wenjun Yan").to.have.firstname("Wenjun")
@@ -193,15 +186,12 @@ Negations
 Plugin
 ~~~~~~
 
-| ``use(*args, **kwags)``. use this to extend ``the`` functionality.
-**classmethod**
-| @param: \*args
-| @param: \*\*kwargs
-| ``args`` can be a string (which will become a new chain), method(new
-matcher), list of arg or a dict (in this case ``the`` will use the key
-as new matcher's name. Same as ``kwargs``.). ``args`` can even be a
-module if it provides a ``API`` variable containing all matchers and
-chains to export.
+``use(*args, **kwags)``. use this to extend ``the`` functionality.
+**classmethod** @param: \*args @param: \*\*kwargs ``args`` can be a
+string (which will become a new chain), method(new matcher), list of arg
+or a dict (in this case ``the`` will use the key as new matcher's name.
+Same as ``kwargs``.). ``args`` can even be a module if it provides a
+``API`` variable containing all matchers and chains to export.
 
 Usage and Examples
 ==================
@@ -390,3 +380,5 @@ Plugin
 -  `the-easytype <https://github.com/the-py/the-easytype>`__. Another
    way to assert basic types.
 
+.. |Build Status| image:: https://travis-ci.org/the-py/the.png
+   :target: https://travis-ci.org/the-py/the
