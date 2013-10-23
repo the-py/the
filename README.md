@@ -2,6 +2,8 @@
 
 inspired by should.js and chai.js
 
+http://the-py.github.io/the/
+
 [![Build Status](https://travis-ci.org/the-py/the.png)](https://travis-ci.org/the-py/the)
 tested on python2.7, 3.2, 3.3
 
@@ -143,7 +145,7 @@ def firstname(self, name):
                          "The firstname of {} is not {}".format(self.obj, name))
 
 # add to `the`
-the.use(firname)
+the.use(firstname)
 
 # DONE!
 expect("Wenjun Yan").to.have.firstname("Wenjun")
