@@ -9,7 +9,7 @@ def readme():
 if __name__ == '__main__':
     setup(
         name = 'the',
-        version = '0.1.4',
+        version = '0.1.5',
         description = 'rspec/should.js assertion style for python test',
         long_description = readme(),
         author = "Yan Wenjun",

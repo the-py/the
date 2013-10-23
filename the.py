@@ -283,17 +283,17 @@ class The(object):
 
     def result(self, res):
         msg = "{} when called by {} is equal to {}"
+        msg = msg.format(_i(self.obj), _ai(self.args), _i(res))
         nemsg = "{} when called by {} is not equal to {}"
+        nemsg = nemsg.format(_i(self.obj), _ai(self.args), _i(res))
+
         try:
             ret = self.obj(*self.args[0], **self.args[1])
-        except Exception as e:
-            msg += " Exception throws: {}."
-            self._check(False, msg.format(_i(self.obj), _ai(self.args), e))
-
+        except Exception:
+            self._check(False, msg, nemsg)
         else:
-            self._check(ret == res,
-                        _msg(msg, _i(self.obj), _ai(self.args), _i(ret)),
-                        _msg(nemsg, _i(self.obj), _ai(self.args), _i(ret)))
+            self._check(ret == res, msg, nemsg)
+
         return self
 
     def method(self, fn):
@@ -303,21 +303,21 @@ class The(object):
                            _msg("{} do not thave method: {}", self.obj, fn))
 
     def throw(self, regex=None, tp=Exception):
+        msg = "{} when called by {} throw <{} {}>"
+        msg = msg.format(_i(self.obj), _ai(self.args), tp.__name__, regex)
+        nemsg = "{} when called by {} do not throw <{} {}>"
+        nemsg = nemsg.format(_i(self.obj), _ai(self.args), tp.__name__, regex)
+
         try:
             self.obj(*self.args[0], **self.args[1])
         except tp as e:
-            msg = "{} when called by {} throw <{} {}>"
-            nemsg = "{} when called by {} do not throw <{} {}>"
             if regex:
-                self._check(re.search(regex, str(e)),
-                            msg.format(_i(self.obj), _ai(self.args),
-                                       tp.__name__, regex),
-                            nemsg.format(_i(self.obj), _ai(self.args),
-                                         tp.__name__, regex))
+                self._check(re.search(regex, str(e)), msg, nemsg)
+        except Exception as e:
+            self._check(False, msg, nemsg)
         else:
-            msg = "{} when called by {} throw <{} {}>. No exception throws!"
-            self._check(False, msg.format(_i(self.obj), _ai(self.args),
-                                          tp.__name__, regex))
+            self._check(False, msg, nemsg)
+
         return self
 
     @classmethod
