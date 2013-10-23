@@ -117,20 +117,22 @@ class The(object):
     def __call_coder(self, name):
         getattr(self, '_' + name)()
 
-    # -- coder method --
+    # -----
+    # the following methods are matchers(except `should_not`) but you don't
+    # have to call them explicitly. Instead write somthing like this will
+    # trigger the corresponding matcher methods.
     #
-    # the following method are matchers(except `should_not`) but you don't
-    # have to call this explicitly just write somthing like this will work:
     #    The(1).true
     #    The(1).NOT.empty
     #
-    # when you ref to this kind of attribute in the exe dict,
-    # the object will try to prepend a '_' to the name of the attr
-    # and call that method in return.
+    # When you ref to this kind of attribute in the exe dict,
+    # it will try to prepend a '_' to the name of the attr
+    # and call that method for you.
     #
-    # So as in the e.g. above,
+    # As in the e.g. above,
     # When you say `true`, it will first check if it is in `self.exe`,
     # then find a method named as '_true' and call it.
+    # ----
 
     def _should_not(self):
         self.neg = True
